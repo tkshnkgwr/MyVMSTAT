@@ -1,5 +1,8 @@
 # MyVMSTAT
 
+[![CI Build](https://github.com/tkshnkgwr/MyVMSTAT/actions/workflows/ci.yml/badge.svg)](https://github.com/tkshnkgwr/MyVMSTAT/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Rust で実装された、`dstat` 風のカラーハイライト表示が可能な仮想メモリ統計（`vmstat`）CLIユーティリティです。標準の `vmstat` には存在しない、動的な**タイムスタンプ表示**や視認性の高いカラー閾値遷移などの機能を備えています。
 
 🌐 **[English version of README is available here (README.md)](README.md)**

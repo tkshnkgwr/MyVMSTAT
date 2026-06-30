@@ -1,31 +1,32 @@
-name: Rust CI
+name: CI Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ master, main ]
   pull_request:
-    branches: [ "main" ]
-
-env:
-  CARGO_TERM_COLOR: always
+    branches: [ master, main ]
 
 jobs:
-  test:
-    name: Run cargo test and cargo build (Windows)
+  check-test:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    
-    - name: Install Rust
-      uses: dtolnay/rust-toolchain@stable
-      
-    - name: Rust cache
-      uses: Swatinem/rust-cache@v2
-      
-    - name: Run cargo test
-      run: cargo test --verbose
-      
-    - name: Run cargo build
-      run: cargo build --release --verbose
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - name: Rust Cache
+        uses: swatinem/rust-cache@v2
+
+      - name: Cargo Check
+        run: cargo check
+
+      - name: Cargo Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Cargo Test
+        run: cargo test

@@ -401,6 +401,48 @@ fn print_help() {
     println!("  Blue           Timestamps");
 }
 
+#[derive(Debug, PartialEq)]
+pub enum CliAction {
+    Run { delay: f64, count: Option<u64> },
+    Help,
+    Version,
+}
+
+pub fn parse_args(args: &[String]) -> Result<CliAction, String> {
+    if args.len() > 3 {
+        return Err("Error: Too many arguments.".to_string());
+    }
+
+    if args.len() > 1 {
+        let first_arg = &args[1];
+        if first_arg == "-v" || first_arg == "--version" {
+            return Ok(CliAction::Version);
+        } else if first_arg == "-h" || first_arg == "--help" {
+            return Ok(CliAction::Help);
+        } else if first_arg.starts_with('-') {
+            return Err(format!("Error: Invalid option '{}'", first_arg));
+        }
+
+        let delay = match first_arg.parse::<f64>() {
+            Ok(d) if d > 0.0 => d,
+            _ => return Err(format!("Error: Invalid delay value '{}'. Must be a positive number.", first_arg)),
+        };
+
+        let mut count = None;
+        if args.len() > 2 {
+            let second_arg = &args[2];
+            count = match second_arg.parse::<u64>() {
+                Ok(c) => Some(c),
+                _ => return Err(format!("Error: Invalid count value '{}'. Must be a positive integer.", second_arg)),
+            };
+        }
+
+        Ok(CliAction::Run { delay, count })
+    } else {
+        Ok(CliAction::Run { delay: 1.0, count: None })
+    }
+}
+
 // --- メイン関数 ---
 fn main() {
     // 1. 二重起動防止
@@ -408,50 +450,27 @@ fn main() {
 
     // 2. 引数のパース
     let args: Vec<String> = env::args().collect();
-    let mut delay = 1.0;
-    let mut count = None;
-
-    if args.len() > 1 {
-        let first_arg = &args[1];
-        if first_arg == "-v" || first_arg == "--version" {
-            println!("{} version {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
-            return;
-        } else if first_arg == "-h" || first_arg == "--help" {
-            print_help();
-            return;
-        } else if first_arg.starts_with('-') {
-            eprintln!("Error: Invalid option '{}'", first_arg);
+    let action = match parse_args(&args) {
+        Ok(act) => act,
+        Err(err) => {
+            eprintln!("{}", err);
             print_usage();
             std::process::exit(1);
-        } else {
-            match first_arg.parse::<f64>() {
-                Ok(d) if d > 0.0 => delay = d,
-                _ => {
-                    eprintln!("Error: Invalid delay value '{}'. Must be a positive number.", first_arg);
-                    print_usage();
-                    std::process::exit(1);
-                }
-            }
         }
-    }
+    };
 
-    if args.len() > 2 {
-        let second_arg = &args[2];
-        match second_arg.parse::<u64>() {
-            Ok(c) => count = Some(c),
-            _ => {
-                eprintln!("Error: Invalid count value '{}'. Must be a positive integer.", second_arg);
-                print_usage();
-                std::process::exit(1);
-            }
+    let (delay, count) = match action {
+        CliAction::Version => {
+            println!("{} version {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
+            return;
         }
-    }
+        CliAction::Help => {
+            print_help();
+            return;
+        }
+        CliAction::Run { delay, count } => (delay, count),
+    };
 
-    if args.len() > 3 {
-        eprintln!("Error: Too many arguments.");
-        print_usage();
-        std::process::exit(1);
-    }
 
 
     let mut provider = get_provider();
@@ -521,6 +540,68 @@ mod tests {
     fn test_format_cpu_colored() {
         let result = format_cpu(85.2, 3, "\x1b[31m");
         assert_eq!(result, "\x1b[31m 85\x1b[0m");
+    }
+
+    #[test]
+    fn test_parse_args_empty() {
+        let args = vec!["program".to_string()];
+        assert_eq!(parse_args(&args), Ok(CliAction::Run { delay: 1.0, count: None }));
+    }
+
+    #[test]
+    fn test_parse_args_help() {
+        let args = vec!["program".to_string(), "-h".to_string()];
+        assert_eq!(parse_args(&args), Ok(CliAction::Help));
+        let args_long = vec!["program".to_string(), "--help".to_string()];
+        assert_eq!(parse_args(&args_long), Ok(CliAction::Help));
+    }
+
+    #[test]
+    fn test_parse_args_version() {
+        let args = vec!["program".to_string(), "-v".to_string()];
+        assert_eq!(parse_args(&args), Ok(CliAction::Version));
+        let args_long = vec!["program".to_string(), "--version".to_string()];
+        assert_eq!(parse_args(&args_long), Ok(CliAction::Version));
+    }
+
+    #[test]
+    fn test_parse_args_delay_only() {
+        let args = vec!["program".to_string(), "2.5".to_string()];
+        assert_eq!(parse_args(&args), Ok(CliAction::Run { delay: 2.5, count: None }));
+    }
+
+    #[test]
+    fn test_parse_args_delay_and_count() {
+        let args = vec!["program".to_string(), "2.0".to_string(), "10".to_string()];
+        assert_eq!(parse_args(&args), Ok(CliAction::Run { delay: 2.0, count: Some(10) }));
+    }
+
+    #[test]
+    fn test_parse_args_invalid_option() {
+        let args = vec!["program".to_string(), "--invalid".to_string()];
+        assert!(parse_args(&args).is_err());
+    }
+
+    #[test]
+    fn test_parse_args_invalid_delay() {
+        let args = vec!["program".to_string(), "abc".to_string()];
+        assert!(parse_args(&args).is_err());
+        let args_neg = vec!["program".to_string(), "-1.0".to_string()];
+        assert!(parse_args(&args_neg).is_err());
+    }
+
+    #[test]
+    fn test_parse_args_invalid_count() {
+        let args = vec!["program".to_string(), "1.0".to_string(), "abc".to_string()];
+        assert!(parse_args(&args).is_err());
+        let args_float = vec!["program".to_string(), "1.0".to_string(), "5.5".to_string()];
+        assert!(parse_args(&args_float).is_err());
+    }
+
+    #[test]
+    fn test_parse_args_too_many() {
+        let args = vec!["program".to_string(), "1.0".to_string(), "5".to_string(), "extra".to_string()];
+        assert!(parse_args(&args).is_err());
     }
 }
 

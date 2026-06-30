@@ -6,7 +6,7 @@
 
 ## 1. 検証結果サマリー
 
-- **自動テストパス率**: **100% (6 / 6 ケース成功)**
+- **自動テストパス率**: **100% (15 / 15 ケース成功)**
 - **手動動作検証結果**: **PASS (全項目正常動作確認)**
 - **最終判定**: **合格 (RELEASE READY)**
 
@@ -16,7 +16,7 @@
 
 | レイヤー | 環境・モジュール | バージョン / スペック |
 | :--- | :--- | :--- |
-| **コンパイラ** | rustc / cargo | 1.70.0+ |
+| **コンパイラ** | rustc / cargo | 1.96.0 |
 | **検証OS** | Windows 11 (64-bit) | build 22631+ |
 | **依存関係** | sysinfo, chrono, windows | Cargo.toml 定義通り |
 
@@ -34,18 +34,36 @@
 - **`test_format_cpu_zero`**: CPU使用率が `0.0` の場合、丸め処理が行われ、灰色 ANSI エスケープコードが付与されることを検証。
 - **`test_format_cpu_normal`**: CPU使用率が通常の際に、四捨五入された整数に整形されることを検証。
 - **`test_format_cpu_colored`**: 高負荷警告などの色が指定された際に、CPUカラムに正しくカラーエスケープが付与されることを検証。
+- **`test_parse_args_empty`**: 引数なし起動時にデフォルト値（1秒間隔、無限出力）が返ることを検証。
+- **`test_parse_args_help`**: `-h` / `--help` オプション指定時に Help アクションが返ることを検証。
+- **`test_parse_args_version`**: `-v` / `--version` オプション指定時に Version アクションが返ることを検証。
+- **`test_parse_args_delay_only`**: 遅延秒数のみを指定した際、正常に数値がパースされることを検証。
+- **`test_parse_args_delay_and_count`**: 遅延秒数と回数を指定した際、両方が正しくパースされることを検証。
+- **`test_parse_args_invalid_option`**: 不正なオプション（例：`--invalid`）指定時にエラーが返ることを検証。
+- **`test_parse_args_invalid_delay`**: 遅延秒数に非数値や負数を指定した際、エラーが返ることを検証。
+- **`test_parse_args_invalid_count`**: 回数に非数値や小数を指定した際、エラーが返ることを検証。
+- **`test_parse_args_too_many`**: 引数が多すぎる場合（3個超）にエラーが返ることを検証。
 
 ### 3.2 実行結果
 ```text
-running 6 tests
+running 15 tests
 test tests::test_format_cpu_colored ... ok
-test tests::test_format_val_normal ... ok
+test tests::test_format_cpu_normal ... ok
 test tests::test_format_cpu_zero ... ok
 test tests::test_format_val_colored ... ok
-test tests::test_format_cpu_normal ... ok
+test tests::test_parse_args_invalid_count ... ok
 test tests::test_format_val_zero ... ok
+test tests::test_parse_args_delay_and_count ... ok
+test tests::test_parse_args_delay_only ... ok
+test tests::test_parse_args_empty ... ok
+test tests::test_parse_args_help ... ok
+test tests::test_format_val_normal ... ok
+test tests::test_parse_args_invalid_delay ... ok
+test tests::test_parse_args_invalid_option ... ok
+test tests::test_parse_args_too_many ... ok
+test tests::test_parse_args_version ... ok
 
-test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 ```
 
 ---

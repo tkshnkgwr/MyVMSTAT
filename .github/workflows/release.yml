@@ -1,4 +1,4 @@
-name: Release
+name: Release Build
 
 on:
   push:
@@ -9,38 +9,55 @@ permissions:
   contents: write
 
 jobs:
-  build-release:
-    name: Build & Release (Windows)
-    runs-on: windows-latest
+  release:
+    name: Build and Release
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            artifact_name: MyVMSTAT.exe
+            release_name: MyVMSTAT-windows-amd64.zip
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            artifact_name: MyVMSTAT
+            release_name: MyVMSTAT-linux-amd64.tar.gz
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Rust
+      - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
 
-      # 1. CLI版のビルド
-      - name: Build CLI release
-        run: cargo build --release --verbose
+      - name: Rust Cache
+        uses: swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
 
-      # 2. CLI版バイナリの退避
-      - name: Package CLI binary
+      - name: Build Release Binary
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Package Windows Artifact
+        if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path target/dist
-          Copy-Item -Path target/release/MyVMSTAT.exe -Destination target/dist/MyVMSTAT.exe -Force
+          Compress-Archive -Path target/${{ matrix.target }}/release/${{ matrix.artifact_name }}, LICENSE, README.md, README.ja.md -DestinationPath ${{ matrix.release_name }}
 
-      # 3. バイナリを含む zip アーカイブの作成
-      - name: Archive production binaries
-        shell: pwsh
+      - name: Package Linux Artifact
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          Compress-Archive -Path target/dist/MyVMSTAT.exe -DestinationPath target/dist/MyVMSTAT-windows-x64.zip -Force
+          cd target/${{ matrix.target }}/release && tar -czvf ../../../${{ matrix.release_name }} ${{ matrix.artifact_name }}
+          cd ../../..
+          tar -rvf ${{ matrix.release_name }} LICENSE README.md README.ja.md
 
-      # 4. GitHub Release の作成とアップロード
-      - name: Create GitHub Release and Upload Asset
+      - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: target/dist/MyVMSTAT-windows-x64.zip
+          files: ${{ matrix.release_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
