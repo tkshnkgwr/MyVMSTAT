@@ -1,6 +1,15 @@
-# Changelog: rust-vmstat & Sandbox Dashboard
+# Changelog: MyVMSTAT & Sandbox Dashboard
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
+
+---
+
+## [1.2.1] - 2026-06-30
+
+### Changed
+- **プログラム名の変更**: プログラムおよび実行ファイル名を `rust-vmstat` から `MyVMSTAT` に変更。
+- **ハードコーディングの排除**: ヘルプやエラー出力等で使用されていたプログラム名とバージョンの出力を、`env!("CARGO_PKG_NAME")` および `env!("CARGO_PKG_VERSION")` を使用して Cargo.toml の情報から動的に取得するように変更。
+- **ドキュメント更新**: すべての関連ドキュメントおよびシステム仕様書内のプログラム名・二重起動ミューテックス名の記述を更新。
 
 ---
 
@@ -9,6 +18,7 @@ All notable changes to this project are documented in this file. This project ad
 ### Added
 - **本番用 CLI 実装の完了**: `sysinfo` を用いたクロスプラットフォーム監視と、Linux専用 `/proc` 解析を `src/main.rs` に完全実装。
 - **二重起動防止 (Windows)**: Windows環境下で名前付きミューテックス (`CreateMutexW`) を用いた多重起動防止機構を導入。
+- **ヘルプ・バージョンオプションの追加**: `-h`/`--help` および `-v`/`--version` オプションを実装。バージョン情報は `env!("CARGO_PKG_VERSION")` により `Cargo.toml` と連動させて非ハードコード化。
 - **リリース最適化**: `Cargo.toml` の `profile.release` にサイズ削減およびパフォーマンス最適化設定を追加（最適化後のバイナリサイズは約 254 KB）。
 - **MITライセンス**: リポジトリルートに `LICENSE` ファイルを追加。
 - **ドキュメントの再構築および多言語対応**:

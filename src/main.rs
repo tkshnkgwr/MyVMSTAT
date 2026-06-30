@@ -11,7 +11,7 @@ fn check_single_instance() {
     use windows::core::w;
 
     unsafe {
-        let handle = match CreateMutexW(None, false, w!("Local\\rust-vmstat-single-instance-mutex")) {
+        let handle = match CreateMutexW(None, false, w!("Local\\MyVMSTAT-single-instance-mutex")) {
             Ok(h) => h,
             Err(e) => {
                 eprintln!("Error: Failed to create named mutex: {:?}", e);
@@ -24,7 +24,7 @@ fn check_single_instance() {
         }
         if let Err(err) = GetLastError() {
             if err.code() == ERROR_ALREADY_EXISTS.to_hresult() {
-                eprintln!("Error: Another instance of rust-vmstat is already running.");
+                eprintln!("Error: Another instance of {} is already running.", env!("CARGO_PKG_NAME"));
                 std::process::exit(1);
             }
         }
@@ -362,6 +362,47 @@ fn print_row(data: &VmstatData) {
     );
 }
 
+fn print_usage() {
+    let pkg_name = env!("CARGO_PKG_NAME");
+    eprintln!("Usage: {} [delay [count]]", pkg_name);
+    eprintln!("       {} -h | --help", pkg_name);
+    eprintln!("       {} -v | --version", pkg_name);
+}
+
+fn print_help() {
+    let pkg_name = env!("CARGO_PKG_NAME");
+    println!("{} - A dstat-like colorized vmstat simulation utility", pkg_name);
+    println!();
+    println!("Usage:");
+    println!("  {} [delay [count]]", pkg_name);
+    println!("  {} -h | --help", pkg_name);
+    println!("  {} -v | --version", pkg_name);
+    println!();
+    println!("Arguments:");
+    println!("  delay     Sampling interval in seconds (default: 1.0)");
+    println!("  count     Number of samples to display (default: infinite)");
+    println!();
+    println!("Options:");
+    println!("  -h, --help     Show this help message and exit");
+    println!("  -v, --version  Show version information and exit");
+    println!();
+    println!("Terminal Color Legend & Thresholds:");
+    println!("  Grey (0)       Inactive / Silent metrics");
+    println!("  Yellow         Warning threshold:");
+    println!("                 - Free memory < 1.5 GB");
+    println!("                 - CPU User > 40%");
+    println!("                 - CPU System > 20%");
+    println!("                 - Context switches > 2000/s");
+    println!("  Bold Red       Critical threshold:");
+    println!("                 - Free memory < 512 MB");
+    println!("                 - Swap space usage > 128 MB");
+    println!("                 - CPU User > 80%");
+    println!("                 - CPU System > 40%");
+    println!("                 - CPU I/O Wait > 15%");
+    println!("  Green          Standard activity (Interrupts, Default Context switches)");
+    println!("  Blue           Timestamps");
+}
+
 // --- メイン関数 ---
 fn main() {
     // 1. 二重起動防止
@@ -373,17 +414,47 @@ fn main() {
     let mut count = None;
 
     if args.len() > 1 {
-        if let Ok(d) = args[1].parse::<f64>() {
-            if d > 0.0 {
-                delay = d;
+        let first_arg = &args[1];
+        if first_arg == "-v" || first_arg == "--version" {
+            println!("{} version {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
+            return;
+        } else if first_arg == "-h" || first_arg == "--help" {
+            print_help();
+            return;
+        } else if first_arg.starts_with('-') {
+            eprintln!("Error: Invalid option '{}'", first_arg);
+            print_usage();
+            std::process::exit(1);
+        } else {
+            match first_arg.parse::<f64>() {
+                Ok(d) if d > 0.0 => delay = d,
+                _ => {
+                    eprintln!("Error: Invalid delay value '{}'. Must be a positive number.", first_arg);
+                    print_usage();
+                    std::process::exit(1);
+                }
             }
         }
     }
+
     if args.len() > 2 {
-        if let Ok(c) = args[2].parse::<u64>() {
-            count = Some(c);
+        let second_arg = &args[2];
+        match second_arg.parse::<u64>() {
+            Ok(c) => count = Some(c),
+            _ => {
+                eprintln!("Error: Invalid count value '{}'. Must be a positive integer.", second_arg);
+                print_usage();
+                std::process::exit(1);
+            }
         }
     }
+
+    if args.len() > 3 {
+        eprintln!("Error: Too many arguments.");
+        print_usage();
+        std::process::exit(1);
+    }
+
 
     let mut provider = get_provider();
 

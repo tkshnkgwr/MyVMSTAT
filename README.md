@@ -1,4 +1,4 @@
-# MyVMSTAT (rust-vmstat)
+# MyVMSTAT
 
 A `dstat`-like colorized virtual memory statistics (`vmstat`) CLI utility written in Rust. It introduces highly requested features missing from standard `vmstat`, such as dynamic **Timestamps** and high-visibility color transitions.
 
@@ -48,26 +48,38 @@ A `dstat`-like colorized virtual memory statistics (`vmstat`) CLI utility writte
 
 Ensure you have the Rust toolchain installed.
 
-### Build and Run in Development Mode
+### Command Line Usage
 ```bash
-cargo run [delay [count]]
+MyVMSTAT [delay [count]]
+MyVMSTAT -h | --help
+MyVMSTAT -v | --version
 ```
 - `delay`: Interval in seconds (default: `1.0`).
 - `count`: Maximum number of updates (default: infinite loop).
+- `-h, --help`: Show usage help message, color thresholds, and exit.
+- `-v, --version`: Show tool version and exit.
+
+### Build and Run in Development Mode
+```bash
+cargo run -- [delay [count]]
+# Or to show help:
+cargo run -- -h
+```
 
 ### Build for Production
 To generate a highly optimized, stripped binary with minimal size:
 ```bash
 cargo build --release
 ```
-The optimized binary will be created at `target/release/rust-vmstat.exe` (or `rust-vmstat` on Unix).
+The optimized binary will be created at `target/release/MyVMSTAT.exe` (or `MyVMSTAT` on Unix).
+
 
 ---
 
 ## 🔒 Single Instance Lock (Windows Named Mutex)
-On Windows platforms, `rust-vmstat` prevents concurrent executions of the utility using a named OS mutex. If you try to run multiple instances concurrently, secondary executions will abort with:
+On Windows platforms, `MyVMSTAT` prevents concurrent executions of the utility using a named OS mutex. If you try to run multiple instances concurrently, secondary executions will abort with:
 ```text
-Error: Another instance of rust-vmstat is already running.
+Error: Another instance of MyVMSTAT is already running.
 ```
 
 ---

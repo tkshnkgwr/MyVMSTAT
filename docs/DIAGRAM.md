@@ -1,6 +1,6 @@
 # システム構成図: MyVMSTAT
 
-本ドキュメントは、**MyVMSTAT (rust-vmstat)** の制御フロー、スレッド、およびデータ取得経路について視覚的に定義します。
+本ドキュメントは、**MyVMSTAT** の制御フロー、スレッド、およびデータ取得経路について視覚的に定義します。
 
 ---
 
@@ -96,7 +96,7 @@ classDiagram
 sequenceDiagram
     autonumber
     actor OS as オペレーティングシステム
-    participant App as rust-vmstat (メインスレッド)
+    participant App as MyVMSTAT (メインスレッド)
     
     App->>OS: ミューテックス作成要求 (Windowsのみ)
     OS-->>App: ハンドル返却 (多重起動時は即座に終了)
