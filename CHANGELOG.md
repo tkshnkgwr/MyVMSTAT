@@ -4,6 +4,21 @@ All notable changes to this project are documented in this file. This project ad
 
 ---
 
+## [1.2.2] - 2026-06-30
+
+### Changed
+- **依存ライブラリの更新**:
+  - `windows` クレートを `0.52` から `0.62` へアップデート。
+  - `sysinfo` クレートを `0.30` から `0.39` へアップデート。
+- **ソースコードのAPI仕様変更追従**:
+  - `windows 0.62` での `GetLastError()` の戻り値の型変更に対応し、`WIN32_ERROR` 構造体を用いた型安全な比較に修正。
+  - `sysinfo 0.39` での CPU 使用率取得方法の変更に対応し、`global_cpu_usage()` に移行。
+- **GitHub Actions ワークフローの改善**:
+  - ワークフローファイル (`ci.yml`, `release.yml`) 内の `actions/checkout` アクションのバージョン指定を `v7` から安定版 `v4` に修正。
+  - `release.yml` 内の実行ファイル・アーカイブファイル名における他プロジェクト名（`MyNKF`）のコピペミスを `MyVMSTAT` に修正。
+
+---
+
 ## [1.2.1] - 2026-06-30
 
 ### Changed

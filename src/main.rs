@@ -22,11 +22,9 @@ fn check_single_instance() {
             eprintln!("Error: Failed to create named mutex (invalid handle).");
             std::process::exit(1);
         }
-        if let Err(err) = GetLastError() {
-            if err.code() == ERROR_ALREADY_EXISTS.to_hresult() {
-                eprintln!("Error: Another instance of {} is already running.", env!("CARGO_PKG_NAME"));
-                std::process::exit(1);
-            }
+        if GetLastError() == ERROR_ALREADY_EXISTS {
+            eprintln!("Error: Another instance of {} is already running.", env!("CARGO_PKG_NAME"));
+            std::process::exit(1);
         }
         let _ = handle;
     }
@@ -257,7 +255,7 @@ impl TelemetryProvider for SysinfoProvider {
         let intr = 0;
         let ctxt = 0;
 
-        let cpu_usage = self.sys.global_cpu_info().cpu_usage() as f64;
+        let cpu_usage = self.sys.global_cpu_usage() as f64;
         let cpu_us = cpu_usage;
         let cpu_id = 100.0 - cpu_usage;
         let cpu_sy = 0.0;
