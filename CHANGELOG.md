@@ -27,6 +27,8 @@ All notable changes to this project are documented in this file. This project ad
   - 引数パース処理を `parse_args` 関数へ分離し、新たに 9 つの引数解析用単体テストを追加（全15テストがPASS）。
 - **CI/CD ワークフローの新規構築**:
   - `.github/workflows/ci.yml` (自動ビルド/テスト) および `release.yml` (自動リリースアセットパッケージ) を新規追加。
+- **CIビルド警告エラーの修正**:
+  - `SysinfoProvider` および `LinuxProvider` に対して `Default` トレイトを実装し、Clippy の `new-without-default` 警告を解消（GitHub Actions の CI ビルドエラーを修正）。
 
 ---
 

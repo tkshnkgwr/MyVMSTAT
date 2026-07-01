@@ -88,6 +88,13 @@ impl LinuxProvider {
 }
 
 #[cfg(target_os = "linux")]
+impl Default for LinuxProvider {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+#[cfg(target_os = "linux")]
 impl TelemetryProvider for LinuxProvider {
     fn get_data(&mut self) -> VmstatData {
         use std::fs::File;
@@ -229,6 +236,12 @@ impl SysinfoProvider {
         let mut sys = sysinfo::System::new_all();
         sys.refresh_all();
         Self { sys }
+    }
+}
+
+impl Default for SysinfoProvider {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
