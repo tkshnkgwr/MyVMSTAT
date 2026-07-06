@@ -11,6 +11,7 @@ All notable changes to this project are documented in this file. This project ad
   - 各ジョブに `defaults.run.working-directory: MyVMSTAT` を設定し、`run` コマンドがプロジェクトのディレクトリ内で実行されるように調整。
   - `release.yml` におけるリリースアセット指定パスを、実際の出力先である `MyVMSTAT/${{ matrix.release_name }}` に修正。また、Linuxアセットのパッケージング処理を `MyVMSTAT` ディレクトリ基準で動作するようシンプルかつ堅牢な記述に改善。
   - `release.yml` 内の `Upload Release Asset` ステップに `generate_release_notes: true`, `draft: false`, `prerelease: false` オプションを追加し、リリース自動作成と変更ログ自動生成を統合。
+  - `ci.yml` に自動タグ生成ステップ（`Auto Tagging`）を導入。`Cargo.toml` のバージョン更新時に、対応するGitタグ（例: `v1.2.4`）を自動的に作成してプッシュし、手動のタグ操作なしで自動的にリリースビルドが走るよう改善。
 - **コードフォーマットの適用**:
   - `cargo fmt` によるコード自動整形を適用し、静的検証エラーを解消。
 - **ドキュメントの更新**:
