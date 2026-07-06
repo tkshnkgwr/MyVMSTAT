@@ -46,28 +46,3 @@ jobs:
 
       - name: Cargo Test
         run: cargo test
-
-      - name: Auto Tagging
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-        shell: pwsh
-        run: |
-          $cargoContent = Get-Content -Path Cargo.toml -Raw
-          if ($cargoContent -match '(?m)^version\s*=\s*"([^"]+)"') {
-              $version = $Matches[1]
-          } else {
-              Write-Error "Could not find version in Cargo.toml"
-              exit 1
-          }
-          Write-Output "Found version $version"
-          $tagName = "v$version"
-          git fetch --tags
-          $tagExists = git tag -l $tagName
-          if (-not $tagExists) {
-              Write-Output "Tag $tagName does not exist. Creating and pushing..."
-              git config --global user.name "github-actions[bot]"
-              git config --global user.email "github-actions[bot]@users.noreply.github.com"
-              git tag $tagName
-              git push origin $tagName
-          } else {
-              Write-Output "Tag $tagName already exists. Skipping."
-          }
