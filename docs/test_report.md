@@ -101,7 +101,7 @@ test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fin
 - **検証手順**: `.\target\release\MyVMSTAT.exe -v` および `--version` を実行。
 - **期待される動作**: `MyVMSTAT version 1.2.9` が出力され、プロセスが正常に終了すること。
 - **結果**: **PASS**.
-  - `-v` および `--version` の両方で、`Cargo.toml` に定義された正しいバージョン（`1.2.9`）が表示されることを確認。
+  - `-v` および `--version` の両方で、`Cargo.toml` に定義された正しいバージョン（1.2.10）が表示されることを確認。
 
 ### 検証 5: ヘルプ表示オプション (-h, --help)
 - **検証手順**: `.\target\release\MyVMSTAT.exe -h` および `--help` を実行。
