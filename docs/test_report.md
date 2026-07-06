@@ -18,7 +18,7 @@
 | :--- | :--- | :--- |
 | **コンパイラ** | rustc / cargo | 1.96.0 |
 | **検証OS** | Windows 11 (64-bit) | build 22631+ |
-| **依存関係** | sysinfo, chrono, windows | Cargo.toml 定義通り |
+| **依存関係** | sysinfo, chrono, common_lib | Cargo.toml 定義通り |
 
 ---
 
@@ -93,15 +93,15 @@ test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fin
 - **検証手順**:
   1. 最初のターミナルで `.\target\release\MyVMSTAT.exe 10 2` を起動して待機状態にする。
   2. 起動中に、別のターミナルから `.\target\release\MyVMSTAT.exe 1 1` を起動する。
-- **期待される動作**: 2つ目のプロセスが `ERROR_ALREADY_EXISTS` を検知し、起動を拒否して即座にエラーメッセージを出力して正常終了すること。
+- **期待される動作**: 2つ目のプロセスが `common_lib::desktop::acquire_single_instance` を通じて `ERROR_ALREADY_EXISTS` を検知し、起動を拒否して即座にエラーメッセージを出力して正常終了すること。
 - **結果**: **PASS**.
   - 2つ目のプロセスで `Error: Another instance of MyVMSTAT is already running.` というエラーメッセージが出力され、プロセスが即座に異常終了コードで終了することを確認。
 
 ### 検証 4: バージョン表示オプション (-v, --version)
 - **検証手順**: `.\target\release\MyVMSTAT.exe -v` および `--version` を実行。
-- **期待される動作**: `MyVMSTAT version 1.2.2` が出力され、プロセスが正常に終了すること。
+- **期待される動作**: `MyVMSTAT version 1.2.3` が出力され、プロセスが正常に終了すること。
 - **結果**: **PASS**.
-  - `-v` および `--version` の両方で、`Cargo.toml` に定義された正しいバージョン（`1.2.2`）が表示されることを確認。
+  - `-v` および `--version` の両方で、`Cargo.toml` に定義された正しいバージョン（`1.2.3`）が表示されることを確認。
 
 ### 検証 5: ヘルプ表示オプション (-h, --help)
 - **検証手順**: `.\target\release\MyVMSTAT.exe -h` および `--help` を実行。

@@ -2,6 +2,27 @@
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
 
+## [1.2.4] - 2026-07-06
+
+### Changed
+- **CI/CDワークフローの正常化**:
+  - 各ワークフロー定義ファイル (`ci.yml`, `release.yml`) 内の `actions/checkout` のバージョンを非推奨の `v7` から安定版 `v4` へ、`softprops/action-gh-release` を `v2` へ更新。
+  - 依存ライブラリ `common_lib` の相対パス依存を解決するため、チェックアウト後に `tkshnkgwr/common_lib` を同じ階層の `common_lib` パスへクローンするステップを追加（`PAT` 未設定時のフォールバックとして `token: ${{ secrets.PAT || github.token }}` を設定）。
+  - 各ジョブに `defaults.run.working-directory: MyVMSTAT` を設定し、`run` コマンドがプロジェクトのディレクトリ内で実行されるように調整。
+  - `release.yml` におけるリリースアセット指定パスを、実際の出力先である `MyVMSTAT/${{ matrix.release_name }}` に修正。また、Linuxアセットのパッケージング処理を `MyVMSTAT` ディレクトリ基準で動作するようシンプルかつ堅牢な記述に改善。
+- **コードフォーマットの適用**:
+  - `cargo fmt` によるコード自動整形を適用し、静的検証エラーを解消。
+
+---
+
+## [1.2.3] - 2026-07-03
+
+### Changed
+- **共有ライブラリの活用と二重起動防止ロジックの移行**:
+  - `MyVMSTAT` 内の Windows 向け二重起動防止ロジックを、プロジェクト間共有ライブラリ `common_lib` の `desktop::acquire_single_instance` を使うように移行。
+  - `MyVMSTAT/Cargo.toml` から `windows` クレートへの直接依存を排除し、`common_lib`（`windows_desktop` フィーチャー有効化）に依存するように集約。
+  - `MyVMSTAT/src/main.rs` から unsafe な Win32 API 依存の `check_single_instance` 関数定義を削除し、コードの安全性と保守性を向上。
+
 ---
 
 ## [1.2.2] - 2026-06-30

@@ -24,10 +24,22 @@ jobs:
             release_name: MyVMSTAT-linux-amd64.tar.gz
 
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: MyVMSTAT
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
+        with:
+          path: MyVMSTAT
+
+      - name: Checkout common_lib
+        uses: actions/checkout@v4
+        with:
+          repository: tkshnkgwr/common_lib
+          path: common_lib
+          token: ${{ secrets.PAT || github.token }}
 
       - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -51,13 +63,12 @@ jobs:
       - name: Package Linux Artifact
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cd target/${{ matrix.target }}/release && tar -czvf ../../../${{ matrix.release_name }} ${{ matrix.artifact_name }}
-          cd ../../..
+          tar -czvf ${{ matrix.release_name }} -C target/${{ matrix.target }}/release ${{ matrix.artifact_name }}
           tar -rvf ${{ matrix.release_name }} LICENSE README.md README.ja.md
 
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v2
         with:
-          files: ${{ matrix.release_name }}
+          files: MyVMSTAT/${{ matrix.release_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

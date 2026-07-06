@@ -9,10 +9,22 @@ on:
 jobs:
   check-test:
     runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: MyVMSTAT
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
+        with:
+          path: MyVMSTAT
+
+      - name: Checkout common_lib
+        uses: actions/checkout@v4
+        with:
+          repository: tkshnkgwr/common_lib
+          path: common_lib
+          token: ${{ secrets.PAT || github.token }}
 
       - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable
