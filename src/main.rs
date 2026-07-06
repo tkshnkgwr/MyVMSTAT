@@ -415,6 +415,26 @@ fn print_help() {
     println!("  -h, --help     Show this help message and exit");
     println!("  -v, --version  Show version information and exit");
     println!();
+    println!("Field Descriptions:");
+    println!("  procs:");
+    println!("    r              Number of runnable processes (running or waiting for run time)");
+    println!("    b              Number of processes in uninterruptible sleep");
+    println!("  memory:");
+    println!("    swpd           Amount of virtual memory used (MB)");
+    println!("    free           Amount of idle memory (MB)");
+    println!("    buff           Amount of memory used as buffers (MB)");
+    println!("    cache          Amount of memory used as cache (MB)");
+    println!("  system:");
+    println!("    in             Number of interrupts per second");
+    println!("    cs             Number of context switches per second");
+    println!("  cpu (percentage of total CPU time):");
+    println!("    us             Time spent running non-kernel code (user time)");
+    println!("    sy             Time spent running kernel code (system time)");
+    println!("    id             Time spent idle");
+    println!("    wa             Time spent waiting for I/O");
+    println!("  time:");
+    println!("    timestamp      Current system date and time");
+    println!();
     println!("Terminal Color Legend & Thresholds:");
     println!("  Grey (0)       Inactive / Silent metrics");
     println!("  Yellow         Warning threshold:");
@@ -430,6 +450,11 @@ fn print_help() {
     println!("                 - CPU I/O Wait > 15%");
     println!("  Green          Standard activity (Interrupts, Default Context switches)");
     println!("  Blue           Timestamps");
+    println!();
+    println!("Platform Compatibility Note:");
+    println!("  On non-Linux platforms (e.g., Windows), some system metrics ('buff', 'cache',");
+    println!("  'in', 'cs', 'sy', and 'wa') are not available via standard platform APIs and will");
+    println!("  remain '0' (shown in Grey as inactive) to maintain a consistent output layout.");
 }
 
 #[derive(Debug, PartialEq)]
@@ -538,8 +563,37 @@ fn main() {
     let mut current = provider.get_data();
 
     // ヘッダー表示
-    println!("procs -----------memory---------- ---system-- ------cpu----- -----time-----");
-    println!(" r  b   swpd   free   buff  cache   in    cs us sy id wa      timestamp");
+    let r_hdr = format!("{:>2}", "r");
+    let b_hdr = format!("{:>2}", "b");
+    let swpd_hdr = format!("{:>6}", "swpd");
+    let free_hdr = format!("{:>6}", "free");
+    let buff_hdr = format!("{:>6}", "buff");
+    let cache_hdr = format!("{:>5}", "cache");
+    let in_hdr = format!("{:>4}", "in");
+    let cs_hdr = format!("{:>5}", "cs");
+    let us_hdr = format!("{:>2}", "us");
+    let sy_hdr = format!("{:>2}", "sy");
+    let id_hdr = format!("{:>2}", "id");
+    let wa_hdr = format!("{:>2}", "wa");
+    let time_hdr = format!("{:^19}", "timestamp");
+
+    println!("procs   ------------memory-------------   ---system---- ----cpu----      -------time--------");
+    println!(
+        "{} {}   {}   {}   {}  {}   {}    {} {} {} {} {}      {}",
+        r_hdr,
+        b_hdr,
+        swpd_hdr,
+        free_hdr,
+        buff_hdr,
+        cache_hdr,
+        in_hdr,
+        cs_hdr,
+        us_hdr,
+        sy_hdr,
+        id_hdr,
+        wa_hdr,
+        time_hdr
+    );
 
     let mut loop_count = 0;
     loop {
