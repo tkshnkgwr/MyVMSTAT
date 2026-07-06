@@ -63,8 +63,8 @@ jobs:
       - name: Package Linux Artifact
         if: matrix.os == 'ubuntu-latest'
         run: |
-          tar -czvf ${{ matrix.release_name }} -C target/${{ matrix.target }}/release ${{ matrix.artifact_name }}
-          tar -rvf ${{ matrix.release_name }} LICENSE README.md README.ja.md
+          cp LICENSE README.md README.ja.md target/${{ matrix.target }}/release/
+          tar -czvf ${{ matrix.release_name }} -C target/${{ matrix.target }}/release ${{ matrix.artifact_name }} LICENSE README.md README.ja.md
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2

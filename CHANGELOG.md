@@ -13,7 +13,7 @@ All notable changes to this project are documented in this file. This project ad
   - 各ワークフロー定義ファイル (`ci.yml`, `release.yml`) 内の `actions/checkout` のバージョンを非推奨の `v7` から安定版 `v4` へ、`softprops/action-gh-release` を `v2` へ更新。
   - 依存ライブラリ `common_lib` の相対パス依存を解決するため、チェックアウト後に `tkshnkgwr/common_lib` を同じ階層の `common_lib` パスへクローンするステップを追加（`PAT` 未設定時のフォールバックとして `token: ${{ secrets.PAT || github.token }}` を設定）。
   - 各ジョブに `defaults.run.working-directory: MyVMSTAT` を設定し、`run` コマンドがプロジェクトのディレクトリ内で実行されるように調整。
-  - `release.yml` におけるリリースアセット指定パスを、実際の出力先である `MyVMSTAT/${{ matrix.release_name }}` に修正。また、Linuxアセットのパッケージング処理を `MyVMSTAT` ディレクトリ基準で動作するようシンプルかつ堅牢な記述に改善。
+  - `release.yml` におけるリリースアセット指定パスを、実際の出力先である `MyVMSTAT/${{ matrix.release_name }}` に修正。また、Linuxアセットのパッケージング処理において、圧縮済みの `.tar.gz` に対する `tar -rvf`（追記）によるエラー（`exit code 2`）を解消するため、必要なファイルを出力先ディレクトリへコピーしてから一括圧縮するシンプルな記述に改善。
   - `release.yml` 内の `Upload Release Asset` ステップに `generate_release_notes: true`, `draft: false`, `prerelease: false` オプションを追加し、リリース自動作成と変更ログ自動生成を統合。
 
 ---
