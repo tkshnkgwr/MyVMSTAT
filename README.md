@@ -1,5 +1,6 @@
 # MyVMSTAT
 
+[![GitHub Release](https://img.shields.io/github/v/release/tkshnkgwr/MyVMSTAT)](https://github.com/tkshnkgwr/MyVMSTAT/releases)
 [![CI Build](https://github.com/tkshnkgwr/MyVMSTAT/actions/workflows/ci.yml/badge.svg)](https://github.com/tkshnkgwr/MyVMSTAT/actions/workflows/ci.yml)
 [![Platform: Windows | Linux](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue.svg)](https://github.com/tkshnkgwr/MyVMSTAT)
 [![Rust: 1.96+](https://img.shields.io/badge/rust-1.96%2B-orange.svg)](https://www.rust-lang.org)

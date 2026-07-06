@@ -10,8 +10,11 @@ All notable changes to this project are documented in this file. This project ad
   - 依存ライブラリ `common_lib` の相対パス依存を解決するため、チェックアウト後に `tkshnkgwr/common_lib` を同じ階層の `common_lib` パスへクローンするステップを追加（`PAT` 未設定時のフォールバックとして `token: ${{ secrets.PAT || github.token }}` を設定）。
   - 各ジョブに `defaults.run.working-directory: MyVMSTAT` を設定し、`run` コマンドがプロジェクトのディレクトリ内で実行されるように調整。
   - `release.yml` におけるリリースアセット指定パスを、実際の出力先である `MyVMSTAT/${{ matrix.release_name }}` に修正。また、Linuxアセットのパッケージング処理を `MyVMSTAT` ディレクトリ基準で動作するようシンプルかつ堅牢な記述に改善。
+  - `release.yml` 内の `Upload Release Asset` ステップに `generate_release_notes: true`, `draft: false`, `prerelease: false` オプションを追加し、リリース自動作成と変更ログ自動生成を統合。
 - **コードフォーマットの適用**:
   - `cargo fmt` によるコード自動整形を適用し、静的検証エラーを解消。
+- **ドキュメントの更新**:
+  - `README.md` および `README.ja.md` のヘッダー部に GitHub Release バッジを追加。
 
 ---
 
