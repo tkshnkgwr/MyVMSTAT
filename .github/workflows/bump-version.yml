@@ -34,7 +34,7 @@ jobs:
 
       - name: Calculate new version
         id: calculate_version
-        shell: powershell
+        shell: pwsh
         run: |
           # Read Cargo.toml and find the current version
           $cargo = Get-Content Cargo.toml
@@ -61,12 +61,12 @@ jobs:
           }
 
       - name: Run version bump script
-        shell: powershell
+        shell: pwsh
         run: |
           ./scripts/bump-version.ps1 -NewVersion ${{ env.NEW_VERSION }}
 
       - name: Commit and Push changes
-        shell: powershell
+        shell: pwsh
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -75,7 +75,7 @@ jobs:
           git push origin ${{ github.ref_name }}
 
       - name: Create and Push Tag
-        shell: powershell
+        shell: pwsh
         run: |
           git tag "v${{ env.NEW_VERSION }}"
           git push origin "v${{ env.NEW_VERSION }}"
