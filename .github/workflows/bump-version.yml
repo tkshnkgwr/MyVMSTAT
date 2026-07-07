@@ -19,14 +19,14 @@ jobs:
 
     steps:
       - name: Checkout MyVMSTAT
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: MyVMSTAT
           fetch-depth: 0
           token: ${{ secrets.PAT || github.token }}
 
       - name: Checkout common_lib
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: tkshnkgwr/common_lib
           path: common_lib
