@@ -67,7 +67,7 @@ jobs:
           tar -czvf ${{ matrix.release_name }} -C target/${{ matrix.target }}/release ${{ matrix.artifact_name }} LICENSE README.md README.ja.md
 
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: MyVMSTAT/${{ matrix.release_name }}
           generate_release_notes: true
