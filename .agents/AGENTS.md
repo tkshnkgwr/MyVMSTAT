@@ -53,6 +53,9 @@ AIがコードの変更、機能追加、リファクタリングなどを行う
   リポジトリ内のドキュメント間のファイル参照リンクは、特定のユーザー環境や絶対パスに依存しない相対パス（例：`docs/SPEC.md` や `../src/main.rs`）で記述し、絶対パス（`file:///`）の埋め込みを禁止すること。
 - **ドキュメントの整合性チェック**:
   タスク完了時には、コードと各種Markdownドキュメントの間に情報のズレやリンク切れが残っていないか必ずセルフチェックすること。
+- **Markdownのみの修正時の例外**:
+  ソースコードの変更を伴わない、Markdownファイルのみの修正である場合は、このドキュメント自動更新ルール（CHANGELOG.mdや各種ドキュメントの更新・作成）は適用されず、ドキュメントの追加・更新作業をスキップしてよい。
+
 
 ## 7. 自動テストの品質維持ルール
 - **回帰テストの実行**:
@@ -66,4 +69,6 @@ AIがコードの変更、機能追加、リファクタリングなどを行う
 - **CI/CD・自動アップデート設定の維持**:
   - [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (ビルド高速化のための `rust-cache` 含む), [`.github/workflows/release.yml`](../.github/workflows/release.yml) および [`.github/dependabot.yml`](../.github/dependabot.yml) を破壊しないこと。
   - 依存アクションのバージョン（`checkout@v4`, `action-gh-release@v2` など）やビルド構成の変更時には、これらの構成ファイルも動作可能な状態に維持し、整合性を保つこと。
+- **Markdownのみの修正時のビルド抑制**:
+  - Markdownファイルのみの修正時には、不要なGitHub ActionsのCIビルドの実行を抑止するため、[`.github/workflows/ci.yml`](../.github/workflows/ci.yml) にて `paths-ignore` (`'**.md'`) が設定されていることを維持すること。
 
