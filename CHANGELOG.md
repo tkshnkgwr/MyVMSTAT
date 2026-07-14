@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
 
+## [1.2.13] - 2026-07-14
+
+### Added
+- **RustDocドキュメントコメントの追加**:
+  - `src/main.rs` 内のモジュール、構造体 (`VmstatData`)、トレイト (`TelemetryProvider`)、プロバイダ (`LinuxProvider`, `SysinfoProvider`)、および主要関数・列挙型に対して、詳細なRustDoc用コメント (`//!`, `///`) を追加。これにより `cargo doc` でのドキュメント生成を可能にしました。
+
+### Changed
+- **ドキュメント自動更新ルールの改訂**:
+  - `.agents/AGENTS.md` の「6. ドキュメント自動更新ルール（AI向け）」に RustDoc の自動更新ルールを追記。今後の仕様変更時にドキュメントコメントも常に最新化することを義務付けました。
+
+---
+
 ## [1.2.10] - 2026-07-06
 
 ### Changed

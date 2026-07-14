@@ -1,31 +1,56 @@
+//! `MyVMSTAT` は、Linuxの `vmstat` コマンドにインスパイアされた、
+//! リソース使用状況をリアルタイムで色付け表示するコマンドラインユーティリティです。
+//!
+//! Windows環境などの非Linuxプラットフォームでも動作するように設計されており、
+//! プラットフォームごとに適切なシステム情報を取得するプロバイダを切り替えます。
+
 use chrono::Local;
 use std::env;
 use std::thread;
 use std::time::Duration;
 
 // --- データ構造 ---
+/// システムの各種統計データを保持する構造体。
+///
+/// Linuxの `vmstat` で出力される標準的なメトリクスをモデル化しています。
 #[derive(Debug, Clone, Default)]
 pub struct VmstatData {
+    /// 実行待ち状態のプロセス数 (running または waiting for run time)
     pub r: u64,
+    /// 割り込み不可能なスリープ状態にあるプロセス数
     pub b: u64,
+    /// 使用中の仮想メモリ量 (MB)
     pub swpd: u64,
+    /// 空き物理メモリ量 (MB)
     pub free: u64,
+    /// バッファとして使用されているメモリ量 (MB)
     pub buff: u64,
+    /// キャッシュとして使用されているメモリ量 (MB)
     pub cache: u64,
+    /// 1秒あたりの割り込み回数
     pub intr: u64,
+    /// 1秒あたりのコンテキストスイッチ回数
     pub ctxt: u64,
+    /// ユーザー空間で消費されたCPU時間の割合 (%)
     pub cpu_us: f64,
+    /// カーネル空間で消費されたCPU時間の割合 (%)
     pub cpu_sy: f64,
+    /// アイドル状態のCPU時間の割合 (%)
     pub cpu_id: f64,
+    /// I/O待ち状態のCPU時間の割合 (%)
     pub cpu_wa: f64,
 }
 
+/// システムメトリクスを提供するプロバイダが実装すべきトレイト。
 pub trait TelemetryProvider {
+    /// 現在のシステム統計データを取得します。
     fn get_data(&mut self) -> VmstatData;
+    /// 前回のデータと今回のデータの差分から、指定された秒数あたりのメトリクスを算出します。
     fn get_delta(&mut self, current: &VmstatData, duration_secs: f64) -> VmstatData;
 }
 
 // --- Linux プロバイダ ---
+/// `/proc/stat` から読み取ったCPUティック数を保持する構造体。
 #[cfg(target_os = "linux")]
 #[derive(Default)]
 struct CpuTicks {
@@ -39,6 +64,7 @@ struct CpuTicks {
     steal: u64,
 }
 
+/// Linux環境向けに `/proc` ファイルシステムから統計情報を取得するプロバイダ。
 #[cfg(target_os = "linux")]
 pub struct LinuxProvider {
     prev_ticks: Option<CpuTicks>,
@@ -48,6 +74,7 @@ pub struct LinuxProvider {
 
 #[cfg(target_os = "linux")]
 impl LinuxProvider {
+    /// 新しい `LinuxProvider` インスタンスを生成します。
     pub fn new() -> Self {
         Self {
             prev_ticks: None,
@@ -214,11 +241,15 @@ impl TelemetryProvider for LinuxProvider {
 }
 
 // --- Sysinfo プロバイダ ---
+/// `sysinfo` クレートを使用して、プラットフォーム非依存で統計情報を取得するプロバイダ。
+///
+/// Windows などの非Linux環境で主に使用されます。
 pub struct SysinfoProvider {
     sys: sysinfo::System,
 }
 
 impl SysinfoProvider {
+    /// 新しい `SysinfoProvider` インスタンスを生成し、システム情報を初回更新します。
     pub fn new() -> Self {
         let mut sys = sysinfo::System::new_all();
         sys.refresh_all();
@@ -294,6 +325,7 @@ fn get_provider() -> Box<dyn TelemetryProvider> {
 }
 
 // --- 表示フォーマット ---
+/// 数値を指定された幅で右寄せし、値が 0 の場合は灰色、それ以外で色コードがあれば色付けした文字列を返します。
 fn format_val(val: u64, width: usize, color_code: &str) -> String {
     let s = format!("{:>width$}", val, width = width);
     if val == 0 {
@@ -305,6 +337,7 @@ fn format_val(val: u64, width: usize, color_code: &str) -> String {
     }
 }
 
+/// 浮動小数点のCPU使用率を四捨五入し、右寄せして色付けした文字列を返します。値が 0 の場合は灰色になります。
 fn format_cpu(val: f64, width: usize, color_code: &str) -> String {
     let round_val = val.round() as u64;
     let s = format!("{:>width$}", round_val, width = width);
@@ -317,6 +350,7 @@ fn format_cpu(val: f64, width: usize, color_code: &str) -> String {
     }
 }
 
+/// `VmstatData` の1行分を色付けして標準出力に表示します。
 fn print_row(data: &VmstatData) {
     let r_str = format_val(data.r, 2, "");
     let b_str = format_val(data.b, 2, "");
@@ -388,6 +422,7 @@ fn print_row(data: &VmstatData) {
     );
 }
 
+/// コマンドの簡単な使用方法（Usage）を標準エラー出力に表示します。
 fn print_usage() {
     let pkg_name = env!("CARGO_PKG_NAME");
     eprintln!("Usage: {} [delay [count]]", pkg_name);
@@ -395,6 +430,7 @@ fn print_usage() {
     eprintln!("       {} -v | --version", pkg_name);
 }
 
+/// コマンドのヘルプメッセージ（オプション、フィールド説明、閾値と色の凡例）を標準出力に表示します。
 fn print_help() {
     let pkg_name = env!("CARGO_PKG_NAME");
     println!(
@@ -457,13 +493,22 @@ fn print_help() {
     println!("  remain '0' (shown in Grey as inactive) to maintain a consistent output layout.");
 }
 
+/// 解析されたコマンドライン引数に基づく実行アクションを表す列挙型。
 #[derive(Debug, PartialEq)]
 pub enum CliAction {
+    /// 監視ループを実行します。
+    /// * `delay` - 取得間隔（秒数）
+    /// * `count` - 取得回数。`None` の場合は無限ループ。
     Run { delay: f64, count: Option<u64> },
+    /// ヘルプメッセージを表示します。
     Help,
+    /// バージョン情報を表示します。
     Version,
 }
 
+/// コマンドライン引数の配列をパースし、対応する `CliAction` を返します。
+///
+/// 引数の数が多すぎる場合や、無効な数値が渡された場合は `Err(String)` を返します。
 pub fn parse_args(args: &[String]) -> Result<CliAction, String> {
     if args.len() > 3 {
         return Err("Error: Too many arguments.".to_string());
