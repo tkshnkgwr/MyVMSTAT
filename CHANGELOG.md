@@ -2,6 +2,24 @@
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
 
+## [1.2.14] - 2026-07-16
+
+### Added
+- **設計書 `docs/ARCHITECTURE.md` の新規作成**:
+  - システムの目的、技術スタック、ディレクトリ構造の意図、データフロー、主要モジュールの連携を明文化したシステム設計書を追加。
+- **スタイルガイド `docs/INSTRUCTIONS.md` の新規作成**:
+  - 命名規則、エラーハンドリング方針、モジュール分割基準、AI用のフォーマット指定を明記したコーディングスタイルガイドラインを追加。
+- **タスク・ロードマップ管理 `docs/TODO.md` の新規作成**:
+  - 実装済み機能（Done）、直近のタスク（In Progress）、将来の拡張提案（Backlog）を管理するタスク管理ドキュメントを追加。
+
+### Changed
+- **ドキュメントの命名規則統一（大文字スネークケース）**:
+  - 既存の `docs/test_report.md` を `docs/TEST_REPORT.md` へ移行し、ドキュメントのファイル名を大文字スネークケースへ統一。
+- **開発ガイドライン `.agents/AGENTS.md` のリファクタリング**:
+  - 新規作成したドキュメントをドキュメント自動更新ルール（AI向け）に追加。ドキュメント名は常に大文字スネークケースで統一する旨を規約に追記。
+
+---
+
 ## [1.2.13] - 2026-07-14
 
 ### Added
