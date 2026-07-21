@@ -1,18 +1,21 @@
 [package]
 name = "MyVMSTAT"
-version = "1.2.15"
+version = "1.3.0"
 edition = "2021"
 authors = ["AI Studio Developer"]
 description = "A dstat-like colorized vmstat simulation written in Rust with Timestamps"
 license = "MIT"
 
 [dependencies]
-sysinfo = "0.39"
+sysinfo = { version = "0.39", optional = true }
 chrono = "0.4"
-# 2026-07-03: 共有ライブラリの参照追加
-common_lib = { path = "../common_lib", features = ["windows_desktop"] }
+# 共有ライブラリ参照
+common_lib = { path = "../common_lib", optional = true }
 
-
+[features]
+default = ["sysinfo", "windows_desktop"]
+sysinfo = ["dep:sysinfo"]
+windows_desktop = ["dep:common_lib", "common_lib/windows_desktop"]
 
 [profile.release]
 opt-level = 'z'

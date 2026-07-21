@@ -22,9 +22,10 @@
 | コンポーネント | 採用技術 | バージョン | 主な用途 / 役割 |
 | :--- | :--- | :--- | :--- |
 | **開発言語** | Rust | Edition 2021 | プログラム全体の記述、静的型安全性の保証 |
-| **システム情報** | `sysinfo` | v0.39 | クロスプラットフォーム（特にWindows）でのシステムリソース取得 |
+| **システム情報** | `sysinfo` | v0.39 | クロスプラットフォーム（特にWindows）でのシステムリソース取得 (Optional: `feature = "sysinfo"`) |
 | **日時処理** | `chrono` | v0.4 | ローカルタイムスタンプの取得および文字列フォーマット処理 |
-| **共通機能** | `common_lib` | 独自ライブラリ | Windows用デスクトップ機能（Named Mutex を利用した二重起動防止） |
+| **共通機能** | `common_lib` | 独自ライブラリ | Windows用デスクトップ機能（Named Mutex を利用した二重起動防止） (Optional: `feature = "windows_desktop"`) |
+
 
 ---
 
@@ -88,7 +89,8 @@ MyVMSTAT/
 
 1. **ファクトリ関数 `get_provider()`**:
    - `#[cfg(target_os = "linux")]` 時は `LinuxProvider` をボックス化して返します。
-   - `#[cfg(not(target_os = "linux"))]` 時は `SysinfoProvider` をボックス化して返します。
+   - `#[cfg(all(not(target_os = "linux"), feature = "sysinfo"))]` 時は `SysinfoProvider` をボックス化して返します。
+   - `#[cfg(all(not(target_os = "linux"), not(feature = "sysinfo")))]` 時は `DummyProvider`（デフォルト値を返すプロバイダ）をボックス化して返します。
 
 ### 4.2 主要データフローとサンプリング処理
 メインループでは、指定された `delay` 秒間隔で以下の順序でデータが流れます。

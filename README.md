@@ -79,6 +79,17 @@ cargo build --release
 ```
 The optimized binary will be created at `target/release/MyVMSTAT.exe` (or `MyVMSTAT` on Unix).
 
+### Cargo Features Configuration
+`MyVMSTAT` supports optional feature flags:
+- `sysinfo`: Enables `SysinfoProvider` for non-Linux platforms (`sysinfo` crate).
+- `windows_desktop`: Enables Windows Named Mutex single-instance prevention (`common_lib`).
+
+```bash
+# Build with specific features or without default features
+cargo build --release --no-default-features --features sysinfo
+```
+
+
 
 ---
 

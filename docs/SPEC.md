@@ -152,3 +152,16 @@ MyVMSTAT -v | --version
 - 引数の総数が 3 を超える場合、「Too many arguments.」エラーを表示して終了コード `1` で異常終了します。
 - 不正なハイフンオプション（例：`--invalid`）が指定された場合、「Invalid option」エラーを表示して終了コード `1` で異常終了します。
 
+---
+
+## 8. Cargo Features (ビルド機能フラグ) 仕様
+
+`MyVMSTAT` では、ターゲット環境やバイナリサイズの最適化ニーズに応じた柔軟なコンパイルを行うため、Cargo Features による機能と依存関係の分離に対応しています。
+
+| Feature 名 | 対象依存関係 | 説明 |
+| :--- | :--- | :--- |
+| `default` | `sysinfo`, `windows_desktop` | 標準ビルド構成。以下のすべての機能フラグを有効化します。 |
+| `sysinfo` | `sysinfo` | 非Linux環境（Windows, macOS等）における `SysinfoProvider` を有効化します。無効時はダミープロバイダに切り替わります。 |
+| `windows_desktop` | `common_lib` (`windows_desktop` feature) | Windows環境での Named Mutex による二重起動防止機能を有効化します。無効時はチェックをスキップします。 |
+
+

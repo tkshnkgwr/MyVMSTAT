@@ -79,6 +79,17 @@ cargo build --release
 ```
 最適化された実行可能バイナリは `target/release/MyVMSTAT.exe`（Unix系では `MyVMSTAT`）に生成されます。
 
+### Cargo Features (ビルド機能フラグ) の設定
+`MyVMSTAT` は機能と依存関係を切り離す Cargo Features に対応しています：
+- `sysinfo`: 非Linux環境用の `SysinfoProvider` (`sysinfo` クレート) を有効化。
+- `windows_desktop`: Windowsの Named Mutex による二重起動防止機能 (`common_lib`) を有効化。
+
+```bash
+# デフォルト機能を無効化して特定の feature のみでビルドする場合
+cargo build --release --no-default-features --features sysinfo
+```
+
+
 
 ---
 

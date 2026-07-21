@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
 
+## [1.3.0] - 2026-07-21
+
+### Added
+- **Cargo Features による依存関係と機能の分離**:
+  - `Cargo.toml` に `[features]` セクションを追加し、`sysinfo` および `windows_desktop` feature を導入。
+  - `sysinfo`（非Linuxシステム情報取得）および `common_lib`（Windows二重起動防止）をオプショナル依存関係 (`optional = true`) に変更。
+  - デフォルト構成 `default = ["sysinfo", "windows_desktop"]` により後方互換性を保持しつつ、必要に応じた軽量ビルドを可能に改善。
+  - `src/main.rs` 内で `#[cfg(feature = "...")]` を適用し、機能のON/OFFによる条件付きコンパイルに対応。
+
+---
+
 ## [1.2.14] - 2026-07-16
 
 ### Added

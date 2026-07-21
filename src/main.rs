@@ -244,10 +244,12 @@ impl TelemetryProvider for LinuxProvider {
 /// `sysinfo` クレートを使用して、プラットフォーム非依存で統計情報を取得するプロバイダ。
 ///
 /// Windows などの非Linux環境で主に使用されます。
+#[cfg(feature = "sysinfo")]
 pub struct SysinfoProvider {
     sys: sysinfo::System,
 }
 
+#[cfg(feature = "sysinfo")]
 impl SysinfoProvider {
     /// 新しい `SysinfoProvider` インスタンスを生成し、システム情報を初回更新します。
     pub fn new() -> Self {
@@ -257,12 +259,14 @@ impl SysinfoProvider {
     }
 }
 
+#[cfg(feature = "sysinfo")]
 impl Default for SysinfoProvider {
     fn default() -> Self {
         Self::new()
     }
 }
 
+#[cfg(feature = "sysinfo")]
 impl TelemetryProvider for SysinfoProvider {
     fn get_data(&mut self) -> VmstatData {
         use sysinfo::ProcessStatus;
@@ -313,15 +317,35 @@ impl TelemetryProvider for SysinfoProvider {
     }
 }
 
+/// `sysinfo` feature が無効化されている非Linux環境用のダミープロバイダ。
+#[cfg(all(not(target_os = "linux"), not(feature = "sysinfo")))]
+pub struct DummyProvider;
+
+#[cfg(all(not(target_os = "linux"), not(feature = "sysinfo")))]
+impl TelemetryProvider for DummyProvider {
+    fn get_data(&mut self) -> VmstatData {
+        VmstatData::default()
+    }
+
+    fn get_delta(&mut self, current: &VmstatData, _duration_secs: f64) -> VmstatData {
+        current.clone()
+    }
+}
+
 // --- ファクトリ ---
 #[cfg(target_os = "linux")]
 fn get_provider() -> Box<dyn TelemetryProvider> {
     Box::new(LinuxProvider::new())
 }
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(all(not(target_os = "linux"), feature = "sysinfo"))]
 fn get_provider() -> Box<dyn TelemetryProvider> {
     Box::new(SysinfoProvider::new())
+}
+
+#[cfg(all(not(target_os = "linux"), not(feature = "sysinfo")))]
+fn get_provider() -> Box<dyn TelemetryProvider> {
+    Box::new(DummyProvider)
 }
 
 // --- 表示フォーマット ---
@@ -560,6 +584,7 @@ pub fn parse_args(args: &[String]) -> Result<CliAction, String> {
 // --- メイン関数 ---
 fn main() {
     // 1. 二重起動防止
+    #[cfg(feature = "windows_desktop")]
     let _guard =
         match common_lib::desktop::acquire_single_instance("Local\\MyVMSTAT-single-instance-mutex")
         {

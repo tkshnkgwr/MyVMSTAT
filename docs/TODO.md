@@ -23,6 +23,9 @@
   - パースエラーや過剰引数に対する適切な Usage 出力とエラーハンドリング。
 - **Windows Named Mutex による二重起動の防止**:
   - `common_lib` から提供される名前付きミューテックスを使用した、多重起動の抑止と即時異常終了処理。
+- **Cargo Features による機能・依存関係の分離**:
+  - `sysinfo` および `windows_desktop` feature を導入し、依存関係のオプショナル化およびモジュール切り替えを実現。
+
 
 ### 1.3 CI/CD・開発環境
 - **GitHub Actions を用いたリリース自動化**:
