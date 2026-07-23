@@ -1,6 +1,6 @@
 [package]
 name = "MyVMSTAT"
-version = "1.3.1"
+version = "1.3.2"
 edition = "2021"
 authors = ["AI Studio Developer"]
 description = "A dstat-like colorized vmstat simulation written in Rust with Timestamps"
