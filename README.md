@@ -8,7 +8,7 @@
 
 A `dstat`-like colorized virtual memory statistics (`vmstat`) CLI utility written in Rust. It introduces highly requested features missing from standard `vmstat`, such as dynamic **Timestamps** and high-visibility color transitions.
 
-🌐 **[日本語版のREADMEはこちら (README.ja.md)](README.ja.md)**
+**English** | [日本語](README_JA.md)
 
 ---
 
@@ -37,15 +37,26 @@ A `dstat`-like colorized virtual memory statistics (`vmstat`) CLI utility writte
 .
 ├── Cargo.toml               # Cargo package configuration
 ├── LICENSE                  # MIT License
+├── CHANGELOG.md             # Changelog index router
 ├── README.md                # English documentation (This file)
-├── README.ja.md             # Japanese translation
+├── README_JA.md             # Japanese documentation
 ├── src/
 │   └── main.rs              # Main entry point (platform-specific implementations)
 └── docs/                    # Architecture documents and reports
-    ├── SPEC.md              # Technical specification & architectural design (Japanese)
-    ├── DIAGRAM.md           # System architecture diagram (Mermaid)
-    ├── FOOTPRINTS.md        # Binary footprint & performance statistics
-    └── TEST_REPORT.md       # Validation logs & test cases
+    ├── en/                  # English documentation
+    │   ├── ARCHITECTURE.md
+    │   ├── DIAGRAM.md
+    │   ├── FOOTPRINTS.md
+    │   ├── INSTRUCTIONS.md
+    │   ├── SPEC.md
+    │   └── TODO.md
+    └── ja/                  # Japanese documentation
+        ├── ARCHITECTURE.md
+        ├── DIAGRAM.md
+        ├── FOOTPRINTS.md
+        ├── INSTRUCTIONS.md
+        ├── SPEC.md
+        └── TODO.md
 ```
 
 ---
@@ -89,8 +100,6 @@ The optimized binary will be created at `target/release/MyVMSTAT.exe` (or `MyVMS
 cargo build --release --no-default-features --features sysinfo
 ```
 
-
-
 ---
 
 ## 🔒 Single Instance Lock (Windows Named Mutex)
@@ -101,10 +110,32 @@ Error: Another instance of MyVMSTAT is already running.
 
 ---
 
-## 📚 Technical Documentation (Japanese)
+## 📚 Technical Documentation
+
 For further architectural blueprints and verification logs, check:
-- **[System Specification](docs/SPEC.md)**
-- **[System Diagram](docs/DIAGRAM.md)**
-- **[Performance Footprints](docs/FOOTPRINTS.md)**
-- **[Test Report](docs/TEST_REPORT.md)**
-- **[Changelog](CHANGELOG.md)**
+
+### 🇬🇧 English Documentation
+- **[System Specification](docs/en/SPEC.md)**
+- **[System Diagram](docs/en/DIAGRAM.md)**
+- **[System Architecture](docs/en/ARCHITECTURE.md)**
+- **[Coding Style Guidelines](docs/en/INSTRUCTIONS.md)**
+- **[Performance Footprints](docs/en/FOOTPRINTS.md)**
+- **[Roadmap & TODO](docs/en/TODO.md)**
+- **[Testing Policy](docs/en/TESTING.md)**
+- **[Release Procedures](docs/en/RELEASE.md)**
+- **[Contributing Guidelines](docs/en/CONTRIBUTING.md)**
+- **[Security Policy](docs/en/SECURITY.md)**
+- **[Changelog](docs/en/CHANGELOG.md)**
+
+### 🇯🇵 Japanese Documentation
+- **[システム詳細仕様書](docs/ja/SPEC.md)**
+- **[システム構成図](docs/ja/DIAGRAM.md)**
+- **[システムアーキテクチャ設計書](docs/ja/ARCHITECTURE.md)**
+- **[開発者向けスタイル規約](docs/ja/INSTRUCTIONS.md)**
+- **[リソース使用量の記録](docs/ja/FOOTPRINTS.md)**
+- **[タスク管理・TODO](docs/ja/TODO.md)**
+- **[テスト・検証方針](docs/ja/TESTING.md)**
+- **[リリース手順書](docs/ja/RELEASE.md)**
+- **[コントリビューション規約](docs/ja/CONTRIBUTING.md)**
+- **[セキュリティポリシー](docs/ja/SECURITY.md)**
+- **[開発ログと変更履歴](docs/ja/CHANGELOG.md)**

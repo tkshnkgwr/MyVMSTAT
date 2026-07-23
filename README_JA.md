@@ -8,7 +8,7 @@
 
 Rust で実装された、`dstat` 風のカラーハイライト表示が可能な仮想メモリ統計（`vmstat`）CLIユーティリティです。標準の `vmstat` には存在しない、動的な**タイムスタンプ表示**や視認性の高いカラー閾値遷移などの機能を備えています。
 
-🌐 **[English version of README is available here (README.md)](README.md)**
+[English](README.md) | **日本語**
 
 ---
 
@@ -37,15 +37,26 @@ Rust で実装された、`dstat` 風のカラーハイライト表示が可能�
 .
 ├── Cargo.toml               # Cargo パッケージ設定ファイル
 ├── LICENSE                  # MIT ライセンスファイル
+├── CHANGELOG.md             # 変更履歴の案内インデックス
 ├── README.md                # 英語版メインドキュメント
-├── README.ja.md             # 日本語版メインドキュメント (このファイル)
+├── README_JA.md             # 日本語版メインドキュメント (このファイル)
 ├── src/
 │   └── main.rs              # エントリポイントおよびプラットフォーム別処理の実装
 └── docs/                    # 各種設計ドキュメント・検証レポート
-    ├── SPEC.md              # システム詳細仕様書
-    ├── DIAGRAM.md           # システム構成図 (Mermaid形式)
-    ├── FOOTPRINTS.md        # バイナリサイズやリソース使用量のフットプリント計測結果
-    └── TEST_REPORT.md       # 自動/手動テストの検証項目・結果レポート
+    ├── en/                  # 英語版ドキュメント
+    │   ├── ARCHITECTURE.md
+    │   ├── DIAGRAM.md
+    │   ├── FOOTPRINTS.md
+    │   ├── INSTRUCTIONS.md
+    │   ├── SPEC.md
+    │   └── TODO.md
+    └── ja/                  # 日本語版ドキュメント
+        ├── ARCHITECTURE.md
+        ├── DIAGRAM.md
+        ├── FOOTPRINTS.md
+        ├── INSTRUCTIONS.md
+        ├── SPEC.md
+        └── TODO.md
 ```
 
 ---
@@ -89,8 +100,6 @@ cargo build --release
 cargo build --release --no-default-features --features sysinfo
 ```
 
-
-
 ---
 
 ## 🔒 二重起動の防止 (Windows Named Mutex)
@@ -102,9 +111,31 @@ Error: Another instance of MyVMSTAT is already running.
 ---
 
 ## 📚 補足技術ドキュメント
+
 詳細なアーキテクチャ、仕様、検証項目等については以下を参照してください。
-- **[システム詳細仕様書](docs/SPEC.md)**
-- **[システム構成図](docs/DIAGRAM.md)**
-- **[リソース使用量の記録](docs/FOOTPRINTS.md)**
-- **[動作検証テスト結果](docs/TEST_REPORT.md)**
-- **[開発ログとマイルストーン](CHANGELOG.md)**
+
+### 🇬🇧 英語版ドキュメント
+- **[System Specification](docs/en/SPEC.md)**
+- **[System Diagram](docs/en/DIAGRAM.md)**
+- **[System Architecture](docs/en/ARCHITECTURE.md)**
+- **[Coding Style Guidelines](docs/en/INSTRUCTIONS.md)**
+- **[Performance Footprints](docs/en/FOOTPRINTS.md)**
+- **[Roadmap & TODO](docs/en/TODO.md)**
+- **[Testing Policy](docs/en/TESTING.md)**
+- **[Release Procedures](docs/en/RELEASE.md)**
+- **[Contributing Guidelines](docs/en/CONTRIBUTING.md)**
+- **[Security Policy](docs/en/SECURITY.md)**
+- **[Changelog](docs/en/CHANGELOG.md)**
+
+### 🇯🇵 日本語版ドキュメント
+- **[システム詳細仕様書](docs/ja/SPEC.md)**
+- **[システム構成図](docs/ja/DIAGRAM.md)**
+- **[システムアーキテクチャ設計書](docs/ja/ARCHITECTURE.md)**
+- **[開発者向けスタイル規約](docs/ja/INSTRUCTIONS.md)**
+- **[リソース使用量の記録](docs/ja/FOOTPRINTS.md)**
+- **[タスク管理・TODO](docs/ja/TODO.md)**
+- **[テスト・検証方針](docs/ja/TESTING.md)**
+- **[リリース手順書](docs/ja/RELEASE.md)**
+- **[コントリビューション規約](docs/ja/CONTRIBUTING.md)**
+- **[セキュリティポリシー](docs/ja/SECURITY.md)**
+- **[開発ログと変更履歴](docs/ja/CHANGELOG.md)**
