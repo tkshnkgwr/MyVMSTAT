@@ -10,20 +10,8 @@ permissions:
 
 jobs:
   release:
-    name: Build and Release
-    strategy:
-      matrix:
-        include:
-          - target: x86_64-pc-windows-msvc
-            os: windows-latest
-            artifact_name: MyVMSTAT.exe
-            release_name: MyVMSTAT-windows-amd64.zip
-          - target: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
-            artifact_name: MyVMSTAT
-            release_name: MyVMSTAT-linux-amd64.tar.gz
-
-    runs-on: ${{ matrix.os }}
+    name: Build and Release (Windows)
+    runs-on: windows-latest
     defaults:
       run:
         working-directory: MyVMSTAT
@@ -44,32 +32,23 @@ jobs:
       - name: Setup Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          targets: x86_64-pc-windows-msvc
 
       - name: Rust Cache
         uses: swatinem/rust-cache@v2
-        with:
-          key: ${{ matrix.target }}
 
       - name: Build Release Binary
-        run: cargo build --release --target ${{ matrix.target }}
+        run: cargo build --release
 
       - name: Package Windows Artifact
-        if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          Compress-Archive -Path target/${{ matrix.target }}/release/${{ matrix.artifact_name }}, LICENSE, README.md, README.ja.md -DestinationPath ${{ matrix.release_name }}
-
-      - name: Package Linux Artifact
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          cp LICENSE README.md README.ja.md target/${{ matrix.target }}/release/
-          tar -czvf ${{ matrix.release_name }} -C target/${{ matrix.target }}/release ${{ matrix.artifact_name }} LICENSE README.md README.ja.md
+          Compress-Archive -Path target/release/MyVMSTAT.exe, LICENSE, README.md, README.ja.md -DestinationPath MyVMSTAT-windows-amd64.zip
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v3
         with:
-          files: MyVMSTAT/${{ matrix.release_name }}
+          files: MyVMSTAT/MyVMSTAT-windows-amd64.zip
           generate_release_notes: true
           draft: false
           prerelease: false
