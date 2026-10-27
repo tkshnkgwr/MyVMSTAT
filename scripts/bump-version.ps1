@@ -28,15 +28,4 @@ if (Test-Path $cargoPath) {
     Write-Warning "$cargoPath not found."
 }
 
-# 2. docs/TEST_REPORT.md の更新
-$testPath = "docs/TEST_REPORT.md"
-if (Test-Path $testPath) {
-    Write-Host "Updating $testPath..."
-    $content = [System.IO.File]::ReadAllText($testPath, $utf8)
-    $newContent = $content -replace '正しいバージョン（[^）]+）が表示されることを確認', "正しいバージョン（$NewVersion）が表示されることを確認"
-    [System.IO.File]::WriteAllText($testPath, $newContent, $utf8)
-} else {
-    Write-Warning "$testPath not found."
-}
-
 Write-Host "Version bump completed successfully!"

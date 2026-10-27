@@ -21,13 +21,12 @@
 
 本プロジェクトは Rust 言語で実装されており、軽量かつ安全で信頼性の高い実行環境を実現しています。
 
-| コンポーネント | 採用技術 | バージョン | 主な用途 / 役割 |
-| :--- | :--- | :--- | :--- |
-| **開発言語** | Rust | Edition 2021 | プログラム全体の記述、静的型安全性の保証 |
-| **システム情報** | `sysinfo` | v0.39 | クロスプラットフォーム（特にWindows）でのシステムリソース取得 (Optional: `feature = "sysinfo"`) |
-| **日時処理** | `chrono` | v0.4 | ローカルタイムスタンプの取得および文字列フォーマット処理 |
-| **共通機能** | `common_lib` | 独自ライブラリ | Windows用デスクトップ機能（Named Mutex を利用した二重起動防止） (Optional: `feature = "windows_desktop"`) |
-
+| コンポーネント   | 採用技術     | バージョン     | 主な用途 / 役割                                                                                    |
+| :--------------- | :----------- | :------------- | :------------------------------------------------------------------------------------------------- |
+| **開発言語**     | Rust         | Edition 2021   | プログラム全体の記述、静的型安全性の保証                                                           |
+| **システム情報** | `sysinfo`    | v0.39          | クロスプラットフォーム（特にWindows）でのシステムリソース取得 (Optional: `feature = "sysinfo"`)     |
+| **日時処理**     | `chrono`     | v0.4           | ローカルタイムスタンプの取得および文字列フォーマット処理                                           |
+| **共通機能**     | `common_lib` | 独自ライブラリ | Windows用デスクトップ機能（Named Mutex を利用した二重起動防止） (Optional: `feature = "windows_desktop"`) |
 
 ---
 
@@ -39,22 +38,45 @@
 ```text
 MyVMSTAT/
 ├── .agents/
+│   ├── skills/            # 特化スキル定義 (検証・コミット・テーブル整形等)
 │   └── AGENTS.md          # AIアシスタント向け開発・実行ガイドライン
 ├── .github/
 │   └── workflows/         # GitHub Actions（CI/CD、自動リリース）
-├── docs/
-│   ├── ARCHITECTURE.md    # システムアーキテクチャ設計書（本書）
-│   ├── DIAGRAM.md         # Mermaidによるシステム構成図・制御フロー
-│   ├── FOOTPRINTS.md      # バイナリサイズやメモリ使用量の計測記録
-│   ├── INSTRUCTIONS.md    # AI/開発者向けコーディングスタイル規約
-│   ├── SPEC.md            # 詳細仕様書（パースロジック、閾値、引数）
-│   ├── TEST_REPORT.md     # テストおよび検証結果の報告書
-│   └── TODO.md            # 実装済み機能、直近タスク、バックログ管理
+├── docs/                  # 設計・仕様・運用ドキュメント（多言語対応）
+│   ├── en/                # 英語版ドキュメント
+│   │   ├── ARCHITECTURE.md
+│   │   ├── CHANGELOG.md
+│   │   ├── CONTRIBUTING.md
+│   │   ├── DIAGRAM.md
+│   │   ├── FOOTPRINTS.md
+│   │   ├── INSTRUCTIONS.md
+│   │   ├── RELEASE.md
+│   │   ├── SECURITY.md
+│   │   ├── SPEC.md
+│   │   ├── TESTING.md
+│   │   └── TODO.md
+│   └── ja/                # 日本語版ドキュメント
+│       ├── ARCHITECTURE.md
+│       ├── CHANGELOG.md
+│       ├── CONTRIBUTING.md
+│       ├── DIAGRAM.md
+│       ├── FOOTPRINTS.md
+│       ├── INSTRUCTIONS.md
+│       ├── RELEASE.md
+│       ├── SECURITY.md
+│       ├── SPEC.md
+│       ├── TESTING.md
+│       └── TODO.md
 ├── scripts/               # 開発用自動化・ビルド補助スクリプト
 ├── src/
 │   └── main.rs            # アプリケーションのメインソースコード
 ├── Cargo.toml             # パッケージ・依存関係・リリースビルド定義
-└── Cargo.lock             # 依存関係のバージョンロックファイル
+├── Cargo.lock             # 依存関係のバージョンロックファイル
+├── CHANGELOG.md           # 多言語変更履歴ルーター
+├── LICENSE                # MIT ライセンスファイル
+├── README.md              # 英語版メインドキュメント
+├── README_JA.md           # 日本語版メインドキュメント
+└── RULES.md               # 開発共通絶対遵守指令
 ```
 
 ### 3.2 構成の意図

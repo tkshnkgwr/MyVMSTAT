@@ -6,6 +6,40 @@ All notable changes to this project are documented in this file. This project ad
 
 ---
 
+## [1.3.4] - 2026-10-27
+
+### Added
+- **Agent-Specific Skills Integration**:
+  - Introduced `.agents/skills/` containing `rust-verification`, `git-commit`, `markdown-table`, and `vault-memo`.
+- **Enhanced Version Display**:
+  - Improved `-v` / `--version` CLI output to display Copyright notice (`Copyright (c) 2026 tkshnkgwr`) and License (`MIT`) alongside package version.
+
+### Changed
+- **Unified Absolute Development Rules**:
+  - Established `RULES.md` and `GEMINI.md` defining strict guidelines for auto-commit bans, table vertical alignment, `%USERPROFILE%` variable usage, and high-performance CLI tools (`rg`/`fd`/`jq`).
+  - Synchronized repository layout and document indices across `README.md`, `README_JA.md`, and `ARCHITECTURE.md`.
+
+---
+
+## [1.3.2] - 2026-07-23
+
+### Added
+- **Multilingual Documentation & Operations Manuals**:
+  - Split technical documentation into multilingual structures (`docs/en/` and `docs/ja/`).
+  - Added operational documents: `TESTING.md`, `RELEASE.md`, `CONTRIBUTING.md`, and `SECURITY.md`.
+
+---
+
+## [1.3.1] - 2026-07-21
+
+### Added
+- **Decoupled Dependencies with Cargo Features**:
+  - Added `[features]` section in `Cargo.toml` introducing `sysinfo` and `windows_desktop` feature flags.
+  - Made `sysinfo` and `common_lib` optional dependencies.
+  - Maintained backward compatibility via `default = ["sysinfo", "windows_desktop"]`.
+
+---
+
 ## [1.3.0] - 2026-07-21
 
 ### Added

@@ -25,10 +25,10 @@ workspace/
 
 ## 2. Commit Message Conventions
 
-To keep version histories readable, adhere to the **Conventional Commits** standard:
+To keep version histories readable, adhere to the **Conventional Commits** standard. The `<type>:` prefix is written in English, while the summary/body is described in Japanese:
 
 ```text
-<type>: <short summary>
+<type>: <Japanese summary description>
 ```
 
 ### Approved `<type>` Mappings:

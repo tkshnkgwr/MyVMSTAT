@@ -45,17 +45,27 @@ Rust で実装された、`dstat` 風のカラーハイライト表示が可能�
 └── docs/                    # 各種設計ドキュメント・検証レポート
     ├── en/                  # 英語版ドキュメント
     │   ├── ARCHITECTURE.md
+    │   ├── CHANGELOG.md
+    │   ├── CONTRIBUTING.md
     │   ├── DIAGRAM.md
     │   ├── FOOTPRINTS.md
     │   ├── INSTRUCTIONS.md
+    │   ├── RELEASE.md
+    │   ├── SECURITY.md
     │   ├── SPEC.md
+    │   ├── TESTING.md
     │   └── TODO.md
     └── ja/                  # 日本語版ドキュメント
         ├── ARCHITECTURE.md
+        ├── CHANGELOG.md
+        ├── CONTRIBUTING.md
         ├── DIAGRAM.md
         ├── FOOTPRINTS.md
         ├── INSTRUCTIONS.md
+        ├── RELEASE.md
+        ├── SECURITY.md
         ├── SPEC.md
+        ├── TESTING.md
         └── TODO.md
 ```
 
@@ -139,3 +149,9 @@ Error: Another instance of MyVMSTAT is already running.
 - **[コントリビューション規約](docs/ja/CONTRIBUTING.md)**
 - **[セキュリティポリシー](docs/ja/SECURITY.md)**
 - **[開発ログと変更履歴](docs/ja/CHANGELOG.md)**
+
+---
+
+## 📄 ライセンス
+
+本プロジェクトは MIT License のもとで公開されています - Copyright (c) 2026 tkshnkgwr。詳細は [LICENSE](LICENSE) をご覧ください。

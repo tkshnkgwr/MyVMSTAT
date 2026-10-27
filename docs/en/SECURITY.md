@@ -10,10 +10,10 @@ This document defines the security standards, supported versions, and reporting 
 
 Security updates are actively applied to the following release branches:
 
-| Version | Support Status |
-| :--- | :--- |
+| Version    | Support Status                        |
+| :--------- | :------------------------------------ |
 | **v1.3.x** | 🟢 Actively Supported (Latest release) |
-| **< v1.3.0** | 🔴 No Longer Supported |
+| **< v1.3.0** | 🔴 No Longer Supported                |
 
 We release security patches targeting the latest active minor/patch releases. Users on older releases are strongly encouraged to upgrade to the latest version immediately to resolve potential security risks.
 

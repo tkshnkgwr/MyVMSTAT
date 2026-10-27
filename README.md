@@ -45,17 +45,27 @@ A `dstat`-like colorized virtual memory statistics (`vmstat`) CLI utility writte
 └── docs/                    # Architecture documents and reports
     ├── en/                  # English documentation
     │   ├── ARCHITECTURE.md
+    │   ├── CHANGELOG.md
+    │   ├── CONTRIBUTING.md
     │   ├── DIAGRAM.md
     │   ├── FOOTPRINTS.md
     │   ├── INSTRUCTIONS.md
+    │   ├── RELEASE.md
+    │   ├── SECURITY.md
     │   ├── SPEC.md
+    │   ├── TESTING.md
     │   └── TODO.md
     └── ja/                  # Japanese documentation
         ├── ARCHITECTURE.md
+        ├── CHANGELOG.md
+        ├── CONTRIBUTING.md
         ├── DIAGRAM.md
         ├── FOOTPRINTS.md
         ├── INSTRUCTIONS.md
+        ├── RELEASE.md
+        ├── SECURITY.md
         ├── SPEC.md
+        ├── TESTING.md
         └── TODO.md
 ```
 
@@ -139,3 +149,9 @@ For further architectural blueprints and verification logs, check:
 - **[コントリビューション規約](docs/ja/CONTRIBUTING.md)**
 - **[セキュリティポリシー](docs/ja/SECURITY.md)**
 - **[開発ログと変更履歴](docs/ja/CHANGELOG.md)**
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - Copyright (c) 2026 tkshnkgwr. See the [LICENSE](LICENSE) file for details.

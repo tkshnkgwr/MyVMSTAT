@@ -10,13 +10,13 @@ This document prescribes the coding styles, error handling policies, component d
 
 Adhere to Rust's standard naming conventions (RFC 430).
 
-| Target | Casing | Example | Remarks |
-| :--- | :--- | :--- | :--- |
-| **Variables / Functions / Parameters** | `lower_snake_case` | `delay`, `parse_args`, `loop_count` | Select concise and clear names |
-| **Structs / Enums / Traits** | `PascalCase` | `VmstatData`, `TelemetryProvider` | Acronyms must be all uppercase (e.g. `CliAction`) |
-| **Constants / Macros** | `UPPER_SNAKE_CASE` | `CARGO_PKG_NAME`, `Local\MyVMSTAT-...` | Uppercase for better visibility |
-| **Source File Names** | `lower_snake_case` | `main.rs` | Must match module names |
-| **Documentation File Names** | `UPPER_SNAKE_CASE.md` | `ARCHITECTURE.md`, `TODO.md` | Unified rule specific to this project |
+| Target                                 | Casing                 | Example                                | Remarks                               |
+| :------------------------------------- | :--------------------- | :------------------------------------- | :------------------------------------ |
+| **Variables / Functions / Parameters** | `lower_snake_case`     | `delay`, `parse_args`, `loop_count`   | Select concise and clear names        |
+| **Structs / Enums / Traits**           | `PascalCase`           | `VmstatData`, `TelemetryProvider`      | Acronyms must be all uppercase (e.g. `CliAction`) |
+| **Constants / Macros**                 | `UPPER_SNAKE_CASE`     | `CARGO_PKG_NAME`, `Local\MyVMSTAT-...` | Uppercase for better visibility       |
+| **Source File Names**                  | `lower_snake_case`     | `main.rs`                              | Must match module names               |
+| **Documentation File Names**           | `UPPER_SNAKE_CASE.md`  | `ARCHITECTURE.md`, `TODO.md`           | Unified rule specific to this project |
 
 ---
 
@@ -53,6 +53,7 @@ When the AI assistant conducts tasks in this repository, it must strictly comply
 - **Automatic Documentation**:
   - Whenever making changes to the source code, inspect and automatically update the corresponding markdown files (`CHANGELOG.md`, `SPEC.md`, `ARCHITECTURE.md`, `TODO.md`) before finishing the turn, in accordance with the guidelines in `.agents/AGENTS.md`.
 - **Run Verification Tests**:
-  - Run `cargo test` after modifying code to verify that all automated unit test cases pass.
+  - Run `cargo test`, `cargo clippy`, and `cargo fmt` after modifying source code to verify that all automated checks pass.
+  - **Skip for Markdown-only changes**: When modifying only Markdown (`.md`) files, skip all Rust build and verification steps to respond swiftly.
 - **Strict Relative Path Links**:
   - When linking documents inside the repository, never use absolute file paths (`file:///`). Always use relative paths (e.g., `docs/SPEC.md`) to maintain portability across environments.

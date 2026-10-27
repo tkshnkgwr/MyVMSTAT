@@ -34,21 +34,21 @@ The output layout conforms to the standard Linux `vmstat` structure, integrated 
 
 ### Column Definitions and Data Types
 
-| Category | Column Name | Data Type | Unit | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| **procs** | `r` | Integer | count | Number of processes waiting for run time (Run queue) |
-| | `b` | Integer | count | Number of processes in uninterruptible sleep (Blocked) |
-| **memory**| `swpd` | Integer | MB | Amount of virtual memory used (Swap space) |
-| | `free` | Integer | MB | Amount of idle physical memory |
-| | `buff` | Integer | MB | Amount of memory used as buffers |
-| | `cache`| Integer | MB | Amount of memory used as cache |
-| **system**| `in` | Integer | count/s | The number of interrupts per second |
-| | `cs` | Integer | count/s | The number of context switches per second |
-| **cpu** | `us` | Integer | % | Time spent running non-kernel code (user + nice) |
-| | `sy` | Integer | % | Time spent running kernel code (system + irq + softirq) |
-| | `id` | Integer | % | Time spent idle (idle) |
-| | `wa` | Integer | % | Time spent waiting for IO (iowait) |
-| **time** | `timestamp`| String | - | Local absolute timestamp (`YYYY-MM-DD HH:MM:SS`) |
+| Category   | Column Name | Data Type | Unit    | Description                                            |
+| :--------- | :---------- | :-------- | :------ | :----------------------------------------------------- |
+| **procs**  | `r`         | Integer   | count   | Number of processes waiting for run time (Run queue)   |
+|            | `b`         | Integer   | count   | Number of processes in uninterruptible sleep (Blocked) |
+| **memory** | `swpd`      | Integer   | MB      | Amount of virtual memory used (Swap space)             |
+|            | `free`      | Integer   | MB      | Amount of idle physical memory                         |
+|            | `buff`      | Integer   | MB      | Amount of memory used as buffers                       |
+|            | `cache`     | Integer   | MB      | Amount of memory used as cache                         |
+| **system** | `in`        | Integer   | count/s | The number of interrupts per second                    |
+|            | `cs`        | Integer   | count/s | The number of context switches per second              |
+| **cpu**    | `us`        | Integer   | %       | Time spent running non-kernel code (user + nice)       |
+|            | `sy`        | Integer   | %       | Time spent running kernel code (system + irq + softirq)|
+|            | `id`        | Integer   | %       | Time spent idle (idle)                                 |
+|            | `wa`        | Integer   | %       | Time spent waiting for IO (iowait)                     |
+| **time**   | `timestamp` | String    | -       | Local absolute timestamp (`YYYY-MM-DD HH:MM:SS`)       |
 
 ---
 
@@ -99,21 +99,21 @@ On non-Linux platforms (Windows, macOS, etc.), the `sysinfo` crate is used to ac
 
 To maximize readability, the following ANSI escape sequences (8-bit ANSI codes) are applied based on metric thresholds:
 
-| Column | Condition | Formatting Style | ANSI Sequence |
-| :--- | :--- | :--- | :--- |
-| **All** | `value == 0` | Shaded Grey (De-emphasized) | `\x1b[90m` |
-| **swpd** | `swpd > 128MB` | Bold Red (High Swap Activity) | `\x1b[1;31m` |
-| **free** | `free < 512MB` | Bold Red (Low Memory Warning) | `\x1b[1;31m` |
-| | `free < 1536MB` | Bold Yellow (Low Memory Caution) | `\x1b[1;33m` |
-| **cs** | `cs > 2000` | Bold Yellow (High Context Switches) | `\x1b[1;33m` |
-| | Otherwise and `value > 0` | Green (Normal Activity) | `\x1b[32m` |
-| **in** | `value > 0` | Green (Normal Activity) | `\x1b[32m` |
-| **us** | `us > 80%` | Bold Red (High CPU User Load) | `\x1b[1;31m` |
-| | `us > 40%` | Bold Yellow (CPU User Caution) | `\x1b[1;33m` |
-| **sy** | `sy > 40%` | Bold Red (High CPU System Load) | `\x1b[1;31m` |
-| | `sy > 20%` | Bold Yellow (CPU System Caution) | `\x1b[1;33m` |
-| **wa** | `wa > 15%` | Bold Red (I/O Bottleneck Warning) | `\x1b[1;31m` |
-| **timestamp**| Always applied | Blue (Time tracking) | `\x1b[34m` |
+| Column        | Condition                | Formatting Style                  | ANSI Sequence |
+| :------------ | :----------------------- | :-------------------------------- | :------------ |
+| **All**       | `value == 0`             | Shaded Grey (De-emphasized)       | `\x1b[90m`    |
+| **swpd**      | `swpd > 128MB`           | Bold Red (High Swap Activity)     | `\x1b[1;31m`  |
+| **free**      | `free < 512MB`           | Bold Red (Low Memory Warning)     | `\x1b[1;31m`  |
+|               | `free < 1536MB`          | Bold Yellow (Low Memory Caution)  | `\x1b[1;33m`  |
+| **cs**        | `cs > 2000`              | Bold Yellow (High Context Switch) | `\x1b[1;33m`  |
+|               | Otherwise and `value > 0`| Green (Normal Activity)           | `\x1b[32m`    |
+| **in**        | `value > 0`              | Green (Normal Activity)           | `\x1b[32m`    |
+| **us**        | `us > 80%`               | Bold Red (High CPU User Load)     | `\x1b[1;31m`  |
+|               | `us > 40%`               | Bold Yellow (CPU User Caution)    | `\x1b[1;33m`  |
+| **sy**        | `sy > 40%`               | Bold Red (High CPU System Load)   | `\x1b[1;31m`  |
+|               | `sy > 20%`               | Bold Yellow (CPU System Caution)  | `\x1b[1;33m`  |
+| **wa**        | `wa > 15%`               | Bold Red (I/O Bottleneck Warning) | `\x1b[1;31m`  |
+| **timestamp** | Always applied           | Blue (Time tracking)              | `\x1b[34m`    |
 
 ---
 
@@ -160,8 +160,8 @@ MyVMSTAT -v | --version
 
 `MyVMSTAT` supports conditional compilation using Cargo Features to optimize binary footprints and target platform-specific functionalities:
 
-| Feature Name | Dependencies | Description |
-| :--- | :--- | :--- |
-| `default` | `sysinfo`, `windows_desktop` | The standard configuration. Enables all features by default. |
-| `sysinfo` | `sysinfo` | Enables the `SysinfoProvider` for non-Linux targets. If disabled, a dummy provider is compiled instead. |
-| `windows_desktop` | `common_lib` (`windows_desktop` feature) | Enables Windows Named Mutex single-instance prevention. If disabled, single-instance verification is bypassed. |
+| Feature Name      | Dependencies                            | Description                                                                                         |
+| :---------------- | :-------------------------------------- | :-------------------------------------------------------------------------------------------------- |
+| `default`         | `sysinfo`, `windows_desktop`            | The standard configuration. Enables all features by default.                                        |
+| `sysinfo`         | `sysinfo`                               | Enables the `SysinfoProvider` for non-Linux targets. If disabled, a dummy provider is compiled.   |
+| `windows_desktop` | `common_lib` (`windows_desktop` feature)| Enables Windows Named Mutex single-instance prevention. If disabled, mutex check is bypassed.       |

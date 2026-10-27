@@ -42,15 +42,15 @@ A list of features already implemented and verified in this project.
 Actionable tasks scheduled for development based on current telemetry limits.
 
 ### 2.1 Feature Enhancements & Metric Mappings
-- `[ ]` **Expand Telemetry on Windows Platforms**:
+- [ ] **Expand Telemetry on Windows Platforms**:
   - **Current status**: `cs`, `in`, `buff`, `cache`, `sy`, and `wa` are fixed to `0` (shaded gray) on non-Linux hosts.
   - **Proposed action**: Investigate/implement direct Windows API calls (such as performance counters or native system telemetry APIs) or lightweight libraries to acquire system cache, context switch rates, and interrupt rates.
-- `[ ]` **Fallback Verification on Stripped Linux Hosts (e.g. Containers)**:
+- [ ] **Fallback Verification on Stripped Linux Hosts (e.g. Containers)**:
   - **Current status**: Behavior in minimal Linux containers where `/proc` is sandboxed or partially unmounted remains unverified.
   - **Proposed action**: Improve robustness by falling back to `sysinfo` when `/proc` is unreachable or throws access errors.
 
 ### 2.2 Testing & Quality Assurance
-- `[ ]` **Verify pwsh Encoding on Windows**:
+- [ ] **Verify pwsh Encoding on Windows**:
   - Further test ANSI escape styling and encoding issues under Windows terminals, specifically PowerShell 5.1 vs 7.0 in Japanese environments.
 
 ---

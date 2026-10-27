@@ -4,6 +4,40 @@
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
 
+## [1.3.4] - 2026-10-27
+
+### Added
+- **AIエージェント特化スキルの新設**:
+  - コード検証 (`rust-verification`)、安全なコミット (`git-commit`)、Markdownテーブル垂直整列 (`markdown-table`)、Obsidian Vault 一時メモ保存 (`vault-memo`) を `.agents/skills/` 配下に新設。
+- **バージョン表示の強化**:
+  - CLI の `-v` / `--version` 実行時に、バージョン番号に加えて著作権表示 (`Copyright (c) 2026 tkshnkgwr`) およびライセンス (`MIT`) を併記するよう改善。
+
+### Changed
+- **ドキュメントとルール体系の刷新**:
+  - 全エージェント共通の絶対遵守指令書 `RULES.md` および `GEMINI.md` を導入し、自動コミット禁止、テーブル垂直整列、%USERPROFILE%統一、高速CLIツール（rg/fd/jq）利用原則を規定。
+  - `README.md`、`README_JA.md`、`ARCHITECTURE.md` のディレクトリ構造およびドキュメント一覧を最新の多言語構成に同期。
+
+---
+
+## [1.3.2] - 2026-07-23
+
+### Added
+- **ドキュメントの多言語化と開発運用ドキュメントの新設**:
+  - `docs/en/` および `docs/ja/` への多言語分割構成への移行。
+  - 開発運用ドキュメントとして `TESTING.md`（テスト方針）、`RELEASE.md`（リリース手順書）、`CONTRIBUTING.md`（貢献ガイドライン）、`SECURITY.md`（セキュリティポリシー）を新設。
+
+---
+
+## [1.3.1] - 2026-07-21
+
+### Added
+- **Cargo Features による依存関係と機能の分離**:
+  - `Cargo.toml` に `[features]` セクションを追加し、`sysinfo` および `windows_desktop` feature を導入。
+  - `sysinfo`（非Linuxシステム情報取得）および `common_lib`（Windows二重起動防止）をオプショナル依存関係 (`optional = true`) に変更。
+  - デフォルト構成 `default = ["sysinfo", "windows_desktop"]` により後方互換性を保持しつつ、軽量ビルドに対応。
+
+---
+
 ## [1.3.0] - 2026-07-21
 
 ### Added
@@ -106,7 +140,7 @@ All notable changes to this project are documented in this file. This project ad
 
 ---
 
-## [1.2.5] - 2026-07-06
+## [1.2.4] - 2026-07-06
 
 ### Changed
 - **CI/CDワークフローの正常化**:

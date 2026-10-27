@@ -21,12 +21,12 @@ This document defines the overall design, tech stack, directory layout rationale
 
 The project is implemented in Rust, offering a memory-safe, high-performance, and single-binary deployment.
 
-| Component | Technology | Version | Main Usage / Role |
-| :--- | :--- | :--- | :--- |
-| **Language** | Rust | Edition 2021 | Core programming language, static type safety |
-| **System Info** | `sysinfo` | v0.39 | Cross-platform resource telemetry (Optional: `feature = "sysinfo"`) |
-| **Date/Time** | `chrono` | v0.4 | Parsing local timestamps and rendering formatted output strings |
-| **Common Lib** | `common_lib` | Custom | Desktop functionalities for Windows (Named Mutex for single-instance lock) (Optional: `feature = "windows_desktop"`) |
+| Component       | Technology   | Version      | Main Usage / Role                                                                                    |
+| :-------------- | :----------- | :----------- | :--------------------------------------------------------------------------------------------------- |
+| **Language**    | Rust         | Edition 2021 | Core programming language, static type safety                                                        |
+| **System Info** | `sysinfo`    | v0.39        | Cross-platform resource telemetry (Optional: `feature = "sysinfo"`)                                  |
+| **Date/Time**   | `chrono`     | v0.4         | Parsing local timestamps and rendering formatted output strings                                      |
+| **Common Lib**  | `common_lib` | Custom       | Desktop functionalities for Windows (Named Mutex for single-instance lock) (Optional: `feature = "windows_desktop"`) |
 
 ---
 
@@ -38,22 +38,45 @@ The repository layout is organized as follows:
 ```text
 MyVMSTAT/
 ├── .agents/
+│   ├── skills/            # Specialized skills (verification, commits, table formatting, etc.)
 │   └── AGENTS.md          # AI Assistant guidelines and instructions
 ├── .github/
 │   └── workflows/         # GitHub Actions (CI/CD, auto release)
-├── docs/
-│   ├── ARCHITECTURE.md    # System Architecture design document (This file)
-│   ├── DIAGRAM.md         # Mermaid system architecture and control flow diagrams
-│   ├── FOOTPRINTS.md      # Binary size and memory footprint logs
-│   ├── INSTRUCTIONS.md    # AI/developer coding style guidelines
-│   ├── SPEC.md            # Detailed technical specification
-│   ├── TEST_REPORT.md     # Automated and manual verification reports
-│   └── TODO.md            # Roadmap, completed tasks, and backlog
+├── docs/                  # Architecture, specifications, and ops manuals (Multilingual)
+│   ├── en/                # English documentation
+│   │   ├── ARCHITECTURE.md
+│   │   ├── CHANGELOG.md
+│   │   ├── CONTRIBUTING.md
+│   │   ├── DIAGRAM.md
+│   │   ├── FOOTPRINTS.md
+│   │   ├── INSTRUCTIONS.md
+│   │   ├── RELEASE.md
+│   │   ├── SECURITY.md
+│   │   ├── SPEC.md
+│   │   ├── TESTING.md
+│   │   └── TODO.md
+│   └── ja/                # Japanese documentation
+│       ├── ARCHITECTURE.md
+│       ├── CHANGELOG.md
+│       ├── CONTRIBUTING.md
+│       ├── DIAGRAM.md
+│       ├── FOOTPRINTS.md
+│       ├── INSTRUCTIONS.md
+│       ├── RELEASE.md
+│       ├── SECURITY.md
+│       ├── SPEC.md
+│       ├── TESTING.md
+│       └── TODO.md
 ├── scripts/               # Helper utilities for automation and versioning
 ├── src/
 │   └── main.rs            # Core application source code
 ├── Cargo.toml             # Cargo package configuration and release profiles
-└── Cargo.lock             # Dependency lockfile
+├── Cargo.lock             # Dependency lockfile
+├── CHANGELOG.md           # Multilingual changelog index router
+├── LICENSE                # MIT License
+├── README.md              # English main documentation
+├── README_JA.md           # Japanese main documentation
+└── RULES.md               # Workspace absolute development rules
 ```
 
 ### 3.2 Design Rationale

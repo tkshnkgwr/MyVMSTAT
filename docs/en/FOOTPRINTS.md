@@ -30,12 +30,12 @@ strip = true         # Completely strip symbol and debug information from the bi
 
 ### 2.2 Telemetry Footprints
 
-| Metric Item | Measured Value | Description |
-| :--- | :--- | :--- |
-| **Binary Size** | **206,336 Bytes (approx. 201 KB)** | Size of the standalone executable containing all statically linked dependencies |
-| **Physical Memory (Working Set)** | **approx. 15.9 MB** | RSS (Resident Set Size) equivalent physical memory occupation while running |
-| **Virtual Memory Size** | **approx. 440 MB** | Virtual address space size allocated by Windows 64-bit runtime startup environment |
-| **CPU Usage** | **< 0.1%** | Zero CPU consumption except during the periodic 1-second interval telemetry calculations |
+| Metric Item                       | Measured Value                     | Description                                                                          |
+| :-------------------------------- | :--------------------------------- | :----------------------------------------------------------------------------------- |
+| **Binary Size**                   | **206,336 Bytes (approx. 201 KB)** | Size of the standalone executable containing all statically linked dependencies      |
+| **Physical Memory (Working Set)** | **approx. 15.9 MB**                | RSS (Resident Set Size) equivalent physical memory occupation while running          |
+| **Virtual Memory Size**           | **approx. 440 MB**                 | Virtual address space size allocated by Windows 64-bit runtime startup environment   |
+| **CPU Usage**                     | **< 0.1%**                         | Zero CPU consumption except during the periodic 1-second interval telemetry calculations |
 
 ---
 
