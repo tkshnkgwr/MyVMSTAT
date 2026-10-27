@@ -4,6 +4,15 @@
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
 
+## [1.3.9] - 2026-10-27
+
+### Changed
+- **プロジェクトライセンスの変更**:
+  - オープンソースライセンスを MIT License から **GNU General Public License v3.0 or later (GPL-3.0-or-later)** へ変更。
+  - `Cargo.toml`、`LICENSE`、`README.md`、`README_JA.md`、および CLI バージョン表示（`-v`）を更新。
+
+---
+
 ## [1.3.5] - 2026-10-27
 
 ### Fixed

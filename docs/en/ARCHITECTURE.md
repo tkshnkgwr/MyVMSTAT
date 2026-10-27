@@ -73,7 +73,7 @@ MyVMSTAT/
 ├── Cargo.toml             # Cargo package configuration and release profiles
 ├── Cargo.lock             # Dependency lockfile
 ├── CHANGELOG.md           # Multilingual changelog index router
-├── LICENSE                # MIT License
+├── LICENSE                # GPLv3 License
 ├── README.md              # English main documentation
 ├── README_JA.md           # Japanese main documentation
 └── RULES.md               # Workspace absolute development rules

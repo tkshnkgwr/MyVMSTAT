@@ -73,7 +73,7 @@ MyVMSTAT/
 ├── Cargo.toml             # パッケージ・依存関係・リリースビルド定義
 ├── Cargo.lock             # 依存関係のバージョンロックファイル
 ├── CHANGELOG.md           # 多言語変更履歴ルーター
-├── LICENSE                # MIT ライセンスファイル
+├── LICENSE                # GPLv3 ライセンスファイル
 ├── README.md              # 英語版メインドキュメント
 ├── README_JA.md           # 日本語版メインドキュメント
 └── RULES.md               # 開発共通絶対遵守指令

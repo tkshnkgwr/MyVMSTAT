@@ -4,7 +4,7 @@
 [![CI Build](https://github.com/tkshnkgwr/MyVMSTAT/actions/workflows/ci.yml/badge.svg)](https://github.com/tkshnkgwr/MyVMSTAT/actions/workflows/ci.yml)
 [![Platform: Windows | Linux](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue.svg)](https://github.com/tkshnkgwr/MyVMSTAT)
 [![Rust: 1.96+](https://img.shields.io/badge/rust-1.96%2B-orange.svg)](https://www.rust-lang.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: GPL-3.0-or-later](https://img.shields.io/badge/License-GPL--3.0--or--later-blue.svg)](LICENSE)
 
 A `dstat`-like colorized virtual memory statistics (`vmstat`) CLI utility written in Rust. It introduces highly requested features missing from standard `vmstat`, such as dynamic **Timestamps** and high-visibility color transitions.
 
@@ -154,4 +154,4 @@ For further architectural blueprints and verification logs, check:
 
 ## 📄 License
 
-This project is licensed under the MIT License - Copyright (c) 2026 tkshnkgwr. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License v3.0 or later (GPL-3.0-or-later) - Copyright (c) 2026 tkshnkgwr. See the [LICENSE](LICENSE) file for details.

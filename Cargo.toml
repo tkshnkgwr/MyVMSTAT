@@ -1,10 +1,10 @@
 [package]
 name = "MyVMSTAT"
-version = "1.3.8"
+version = "1.3.9"
 edition = "2021"
 authors = ["AI Studio Developer"]
 description = "A dstat-like colorized vmstat simulation written in Rust with Timestamps"
-license = "MIT"
+license = "GPL-3.0-or-later"
 
 [dependencies]
 sysinfo = { version = "0.39", optional = true }

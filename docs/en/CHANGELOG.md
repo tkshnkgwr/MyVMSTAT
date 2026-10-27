@@ -6,6 +6,15 @@ All notable changes to this project are documented in this file. This project ad
 
 ---
 
+## [1.3.9] - 2026-10-27
+
+### Changed
+- **Project License Transition**:
+  - Relicensed the project from MIT License to **GNU General Public License v3.0 or later (GPL-3.0-or-later)**.
+  - Updated `Cargo.toml`, `LICENSE`, `README.md`, `README_JA.md`, and CLI version banner (`-v`).
+
+---
+
 ## [1.3.5] - 2026-10-27
 
 ### Fixed

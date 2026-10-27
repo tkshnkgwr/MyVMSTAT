@@ -612,7 +612,7 @@ fn main() {
     let (delay, count) = match action {
         CliAction::Version => {
             println!(
-                "{} v{}\nCopyright (c) 2026 tkshnkgwr\nLicense: MIT",
+                "{} v{}\nCopyright (c) 2026 tkshnkgwr\nLicense: GPL-3.0-or-later",
                 env!("CARGO_PKG_NAME"),
                 env!("CARGO_PKG_VERSION")
             );
