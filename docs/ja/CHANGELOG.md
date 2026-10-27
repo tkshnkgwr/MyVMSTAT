@@ -4,6 +4,14 @@
 
 All notable changes to this project are documented in this file. This project adheres to Semantic Versioning.
 
+## [1.3.5] - 2026-10-27
+
+### Fixed
+- **CI/CD リリースワークフローの修正**:
+  - `release.yml` 内の Windows アーティファクト圧縮対象ファイル名を `README.ja.md` から現行の `README_JA.md` へ修正。
+
+---
+
 ## [1.3.4] - 2026-10-27
 
 ### Added

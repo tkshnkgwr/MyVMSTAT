@@ -43,7 +43,7 @@ jobs:
       - name: Package Windows Artifact
         shell: pwsh
         run: |
-          Compress-Archive -Path target/release/MyVMSTAT.exe, LICENSE, README.md, README.ja.md -DestinationPath MyVMSTAT-windows-amd64.zip
+          Compress-Archive -Path target/release/MyVMSTAT.exe, LICENSE, README.md, README_JA.md -DestinationPath MyVMSTAT-windows-amd64.zip
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v3

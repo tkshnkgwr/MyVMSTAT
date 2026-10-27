@@ -6,6 +6,14 @@ All notable changes to this project are documented in this file. This project ad
 
 ---
 
+## [1.3.5] - 2026-10-27
+
+### Fixed
+- **CI/CD Release Workflow Fix**:
+  - Fixed Windows artifact packaging file path in `release.yml` from obsolete `README.ja.md` to `README_JA.md`.
+
+---
+
 ## [1.3.4] - 2026-10-27
 
 ### Added
